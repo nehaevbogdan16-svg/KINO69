@@ -1,15 +1,28 @@
 const socket = io();
 
-// название комнаты = часть ссылки
-// /room1  /friends  /private123
 const room = location.pathname.replace("/", "") || "main";
-socket.emit("join", room);
+
+const codeInput = document.getElementById("roomCode");
+const joinBtn = document.getElementById("join");
 
 const input = document.getElementById("videoUrl");
-const btn = document.getElementById("load");
+const loadBtn = document.getElementById("load");
 const player = document.getElementById("player");
 
-// преобразование ссылки в embed
+let joined = false;
+
+joinBtn.onclick = () => {
+  socket.emit("join", {
+    room,
+    code: codeInput.value.trim() || null
+  });
+};
+
+socket.on("denied", () => {
+  alert("Неверный код комнаты");
+});
+
+// преобразование ссылки
 function toEmbed(url) {
   if (url.includes("youtube.com/watch")) {
     const id = new URL(url).searchParams.get("v");
@@ -22,19 +35,17 @@ function toEmbed(url) {
 }
 
 // загрузка видео
-btn.onclick = () => {
+loadBtn.onclick = () => {
   const embed = toEmbed(input.value.trim());
-
   if (!embed) {
     alert("Пока поддерживается только YouTube");
     return;
   }
-
   socket.emit("video", embed);
   player.src = embed;
 };
 
-// получение видео от других
+// получение видео
 socket.on("video", url => {
   player.src = url;
 });
