@@ -2,23 +2,83 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>КИНО69</title>
+<title>КИНО69 — Комната</title>
 <link rel="stylesheet" href="/css/style.css">
+<script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
 
-<div class="center">
-  <h1>🎬 КИНО69</h1>
-  <p>Совместный синхронный просмотр</p>
+<h2>🎥 Комната просмотра</h2>
 
-  <button onclick="createRoom()">Создать приватную комнату</button>
-</div>
+<!-- 🎬 Плеер -->
+<iframe
+  id="player"
+  width="800"
+  height="450"
+  frameborder="0"
+  allowfullscreen>
+</iframe>
+
+<br><br>
+
+<input id="videoLink" placeholder="YouTube / VK / Rutube / Vimeo / Dailymotion">
+<button onclick="setVideo()">Запустить</button>
 
 <script>
-function createRoom() {
-  const id = Math.random().toString(36).slice(2, 8);
-  location.href = `/room.html?room=${id}`;
+const socket = io();
+const room = new URLSearchParams(location.search).get("room");
+
+socket.emit("join-room", room);
+
+function setVideo() {
+  const link = document.getElementById("videoLink").value.trim();
+  let m;
+
+  // ▶ VK Video
+  m = link.match(/video(-?\d+)_(\d+)/);
+  if (m) {
+    send(`https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`);
+    return;
+  }
+
+  // ▶ YouTube (youtube.com / youtu.be)
+  m = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (m) {
+    send(`https://www.youtube.com/embed/${m[1]}`);
+    return;
+  }
+
+  // ▶ Rutube
+  m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
+  if (m) {
+    send(`https://rutube.ru/play/embed/${m[1]}`);
+    return;
+  }
+
+  // ▶ Vimeo
+  m = link.match(/vimeo\.com\/(\d+)/);
+  if (m) {
+    send(`https://player.vimeo.com/video/${m[1]}`);
+    return;
+  }
+
+  // ▶ Dailymotion
+  m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+  if (m) {
+    send(`https://www.dailymotion.com/embed/video/${m[1]}`);
+    return;
+  }
+
+  alert("❌ Неподдерживаемая ссылка");
 }
+
+function send(src) {
+  socket.emit("set-video", { room, src });
+}
+
+socket.on("set-video", data => {
+  document.getElementById("player").src = data.src;
+});
 </script>
 
 </body>
