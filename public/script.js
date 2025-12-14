@@ -1,9 +1,10 @@
 const socket = io();
 
-const videoInput = document.getElementById("videoUrl");
-const loadBtn = document.getElementById("loadVideo");
+const input = document.getElementById("videoUrl");
+const button = document.getElementById("loadVideo");
 const iframe = document.getElementById("videoFrame");
 
+// преобразование любой ссылки в embed
 function toEmbed(url) {
   // YouTube
   if (url.includes("youtube.com/watch")) {
@@ -35,8 +36,9 @@ function toEmbed(url) {
   return null;
 }
 
-loadBtn.onclick = () => {
-  const embed = toEmbed(videoInput.value.trim());
+button.onclick = () => {
+  const url = input.value.trim();
+  const embed = toEmbed(url);
 
   if (!embed) {
     alert("Ссылка не поддерживается");
