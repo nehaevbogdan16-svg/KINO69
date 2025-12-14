@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>КИНО69</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,7 +10,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #0f0f0f;
-      color: #fff;
+      color: white;
     }
 
     .container {
@@ -33,7 +33,6 @@
     .controls {
       display: flex;
       gap: 10px;
-      margin-bottom: 10px;
     }
 
     input {
@@ -50,16 +49,17 @@
       border: none;
       cursor: pointer;
       background: #ff3c6a;
-      color: #fff;
+      color: white;
       font-weight: bold;
     }
 
     iframe {
       width: 100%;
       height: 450px;
-      border-radius: 12px;
-      background: #000;
       margin-top: 15px;
+      border-radius: 12px;
+      background: black;
+      border: none;
     }
   </style>
 </head>
@@ -73,12 +73,11 @@
       <input
         id="videoUrl"
         type="text"
-        placeholder="Вставьте ссылку на YouTube / VK / RuTube"
-      />
+        placeholder="Вставьте ссылку на YouTube / VK / RuTube">
       <button id="loadVideo">Загрузить</button>
     </div>
 
-    <!-- ВАЖНО: iframe ЕСТЬ -->
+    <!-- ВАЖНО: iframe существует -->
     <iframe
       id="videoFrame"
       allow="autoplay; fullscreen"
@@ -87,7 +86,7 @@
 
   </div>
 
-  <!-- СКРИПТЫ -->
+  <!-- НИКАКИХ iframe_api -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
