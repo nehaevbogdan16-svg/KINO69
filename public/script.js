@@ -1,51 +1,90 @@
 const socket = io();
-
 const room = location.pathname.replace("/", "") || "main";
 
-const codeInput = document.getElementById("roomCode");
-const joinBtn = document.getElementById("join");
+let player;
+let ignore = false;
 
-const input = document.getElementById("videoUrl");
-const loadBtn = document.getElementById("load");
-const player = document.getElementById("player");
+// подключение к комнате
+socket.emit("join", {
+  room,
+  code: document.getElementById("roomCode")?.value || null
+});
 
-let joined = false;
-
-joinBtn.onclick = () => {
-  socket.emit("join", {
-    room,
-    code: codeInput.value.trim() || null
+// YouTube API
+window.onYouTubeIframeAPIReady = () => {
+  player = new YT.Player("player", {
+    height: "450",
+    width: "100%",
+    playerVars: {
+      controls: 1
+    },
+    events: {
+      onStateChange: onPlayerStateChange
+    }
   });
 };
 
-socket.on("denied", () => {
-  alert("Неверный код комнаты");
-});
+// обработка play / pause
+function onPlayerStateChange(event) {
+  if (ignore) return;
+
+  if (event.data === YT.PlayerState.PLAYING) {
+    socket.emit("sync", {
+      type: "play",
+      time: player.getCurrentTime()
+    });
+  }
+
+  if (event.data === YT.PlayerState.PAUSED) {
+    socket.emit("sync", {
+      type: "pause",
+      time: player.getCurrentTime()
+    });
+  }
+}
 
 // преобразование ссылки
-function toEmbed(url) {
-  if (url.includes("youtube.com/watch")) {
-    const id = new URL(url).searchParams.get("v");
-    if (id) return "https://www.youtube.com/embed/" + id;
+function getVideoId(url) {
+  if (url.includes("youtube.com")) {
+    return new URL(url).searchParams.get("v");
   }
-  if (url.includes("youtu.be/")) {
-    return "https://www.youtube.com/embed/" + url.split("youtu.be/")[1];
+  if (url.includes("youtu.be")) {
+    return url.split("youtu.be/")[1];
   }
   return null;
 }
 
 // загрузка видео
-loadBtn.onclick = () => {
-  const embed = toEmbed(input.value.trim());
-  if (!embed) {
-    alert("Пока поддерживается только YouTube");
+document.getElementById("load").onclick = () => {
+  const url = document.getElementById("videoUrl").value.trim();
+  const id = getVideoId(url);
+
+  if (!id) {
+    alert("Только YouTube");
     return;
   }
-  socket.emit("video", embed);
-  player.src = embed;
+
+  socket.emit("video", id);
+  player.loadVideoById(id);
 };
 
-// получение видео
-socket.on("video", url => {
-  player.src = url;
+// при загрузке видео от другого
+socket.on("video", id => {
+  ignore = true;
+  player.loadVideoById(id);
+  setTimeout(() => ignore = false, 500);
 });
+
+// синхронизация
+socket.on("sync", data => {
+  ignore = true;
+
+  player.seekTo(data.time, true);
+
+  if (data.type === "play") player.playVideo();
+  if (data.type === "pause") player.pauseVideo();
+
+  setTimeout(() => ignore = false, 500);
+});
+
+
