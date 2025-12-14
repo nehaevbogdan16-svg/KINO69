@@ -1,90 +1,65 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>КИНО69</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       font-family: Arial, sans-serif;
+      background: #0f0f0f;
       color: #fff;
     }
 
     .container {
       max-width: 900px;
       margin: auto;
+      padding: 20px;
     }
 
     .logo {
-      font-size: 38px;
-      font-weight: bold;
       text-align: center;
-      margin-bottom: 25px;
-      letter-spacing: 2px;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
     }
 
     .logo span {
       color: #ff3c6a;
     }
 
-    .section {
-      background: rgba(0, 0, 0, 0.35);
-      padding: 15px;
-      border-radius: 14px;
-      margin-bottom: 15px;
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    input, select {
-      width: 100%;
+    input {
+      flex: 1;
       padding: 10px;
-      border-radius: 10px;
+      border-radius: 8px;
       border: none;
-      margin: 6px 0;
-      font-size: 15px;
+      outline: none;
     }
 
     button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border-radius: 10px;
-      border: none;
-      background: #6c4cff;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #836bff;
-    }
-
-    #player {
-      margin-top: 10px;
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 8px;
+      padding: 10px 15px;
       border-radius: 8px;
-      margin-bottom: 6px;
+      border: none;
+      cursor: pointer;
+      background: #ff3c6a;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    iframe {
+      width: 100%;
+      height: 450px;
+      border-radius: 12px;
+      background: #000;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -92,59 +67,28 @@
 <body>
   <div class="container">
 
-    <!-- ЛОГОТИП -->
-    <div class="logo">
-      <span>К</span>ИНО<span>69</span>
+    <div class="logo">КИНО<span>69</span></div>
+
+    <div class="controls">
+      <input
+        id="videoUrl"
+        type="text"
+        placeholder="Вставьте ссылку на YouTube / VK / RuTube"
+      />
+      <button id="loadVideo">Загрузить</button>
     </div>
 
-    <!-- КОМНАТА -->
-    <div class="section">
-      <input id="room" placeholder="Код комнаты">
-      <button onclick="join()">Войти в комнату</button>
-    </div>
-
-    <!-- ВИДЕО -->
-    <div class="section">
-      <select id="service">
-        <option value="yt">YouTube</option>
-        <option value="vk">VK Видео</option>
-        <option value="rutube">RuTube</option>
-      </select>
-
-      <input id="videoUrl" placeholder="Ссылка на видео">
-      <button onclick="loadVideo()">Загрузить видео</button>
-      <iframe
-  id="videoFrame"
-  width="100%"
-  height="450"
-  style="margin-top: 15px; border-radius: 12px;"
-  allow="autoplay; fullscreen"
-  allowfullscreen>
-</iframe>
-    </div>
-
-    <!-- ПЛЕЕР -->
-    <div class="section" id="player"></div>
-
-    <!-- ГОЛОС -->
-    <div class="section">
-        <button id="voiceBtn" onclick="toggleVoice()">🔊 Включить мяу</button>
-
-    </div>
-
-    <!-- ЧАТ -->
-    <div class="section">
-      <input id="msg" placeholder="Сообщение">
-      <button onclick="send()">Отправить</button>
-      <ul id="chat"></ul>
-    </div>
+    <!-- ВАЖНО: iframe ЕСТЬ -->
+    <iframe
+      id="videoFrame"
+      allow="autoplay; fullscreen"
+      allowfullscreen>
+    </iframe>
 
   </div>
 
   <!-- СКРИПТЫ -->
   <script src="/socket.io/socket.io.js"></script>
-  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
