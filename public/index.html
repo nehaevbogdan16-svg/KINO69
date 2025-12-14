@@ -8,21 +8,19 @@
 <body>
 
 <div class="top">
-    <input id="videoUrl" placeholder="YouTube / VK / Rutube / Vimeo / Dailymotion">
+    <input id="videoUrl" placeholder="YouTube / VK / Rutube">
     <button id="setBtn">Загрузить</button>
+    <button id="shareBtn">📺 Поделиться экраном</button>
 </div>
 
 <div class="container">
     <div class="player">
 
-        <!-- 🎬 ЕДИНЫЙ ПЛЕЕР -->
-        <iframe
-            id="player"
-            width="100%"
-            height="450"
-            frameborder="0"
-            allowfullscreen>
-        </iframe>
+        <!-- YouTube -->
+        <div id="ytPlayer" style="display:none;"></div>
+
+        <!-- WebRTC video -->
+        <video id="screenVideo" autoplay playsinline style="display:none; width:100%; height:450px;"></video>
 
     </div>
 
@@ -34,72 +32,141 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
 const socket = io();
 const room = new URLSearchParams(location.search).get("room");
-const btn = document.getElementById("setBtn");
-const input = document.getElementById("videoUrl");
-const iframe = document.getElementById("player");
 
 socket.emit("join-room", room);
 
-btn.onclick = () => {
-    const link = input.value.trim();
-    let m, src = null;
+/* ================= YOUTUBE ================= */
 
-    // ▶ VK Video
-    m = link.match(/video(-?\d+)_(\d+)/);
-    if (m) {
-        src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
+let ytPlayer;
+let syncing = false;
+
+function onYouTubeIframeAPIReady() {}
+
+function loadYouTube(videoId) {
+    document.getElementById("screenVideo").style.display = "none";
+    document.getElementById("ytPlayer").style.display = "block";
+
+    ytPlayer = new YT.Player("ytPlayer", {
+        height: "450",
+        width: "100%",
+        videoId,
+        events: {
+            onStateChange: onYTState
+        }
+    });
+}
+
+function onYTState(e) {
+    if (syncing) return;
+
+    if (e.data === YT.PlayerState.PLAYING) {
+        socket.emit("yt-play", { room, time: ytPlayer.getCurrentTime() });
     }
-
-    // ▶ YouTube
-    m = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-    if (m) {
-        src = `https://www.youtube.com/embed/${m[1]}`;
+    if (e.data === YT.PlayerState.PAUSED) {
+        socket.emit("yt-pause", { room, time: ytPlayer.getCurrentTime() });
     }
+}
 
-    // ▶ Rutube
-    m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
-    if (m) {
-        src = `https://rutube.ru/play/embed/${m[1]}`;
-    }
+socket.on("yt-play", data => {
+    syncing = true;
+    ytPlayer.seekTo(data.time, true);
+    ytPlayer.playVideo();
+    syncing = false;
+});
 
-    // ▶ Vimeo
-    m = link.match(/vimeo\.com\/(\d+)/);
-    if (m) {
-        src = `https://player.vimeo.com/video/${m[1]}`;
-    }
+socket.on("yt-pause", data => {
+    syncing = true;
+    ytPlayer.pauseVideo();
+    syncing = false;
+});
 
-    // ▶ Dailymotion
-    m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-    if (m) {
-        src = `https://www.dailymotion.com/embed/video/${m[1]}`;
-    }
+/* ================= SCREEN SHARING (VK / RUTUBE) ================= */
 
-    if (!src) {
-        alert("❌ Ссылка не поддерживается");
+let pc;
+let localStream;
+const screenVideo = document.getElementById("screenVideo");
+
+document.getElementById("shareBtn").onclick = async () => {
+    localStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true
+    });
+
+    screenVideo.srcObject = localStream;
+    screenVideo.style.display = "block";
+    document.getElementById("ytPlayer").style.display = "none";
+
+    pc = new RTCPeerConnection();
+
+    localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
+
+    pc.onicecandidate = e => {
+        if (e.candidate) socket.emit("ice", { room, c: e.candidate });
+    };
+
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+    socket.emit("offer", { room, offer });
+};
+
+socket.on("offer", async data => {
+    pc = new RTCPeerConnection();
+
+    pc.ontrack = e => {
+        screenVideo.srcObject = e.streams[0];
+        screenVideo.style.display = "block";
+    };
+
+    pc.onicecandidate = e => {
+        if (e.candidate) socket.emit("ice", { room, c: e.candidate });
+    };
+
+    await pc.setRemoteDescription(data.offer);
+    const answer = await pc.createAnswer();
+    await pc.setLocalDescription(answer);
+    socket.emit("answer", { room, answer });
+});
+
+socket.on("answer", data => {
+    pc.setRemoteDescription(data.answer);
+});
+
+socket.on("ice", data => {
+    pc.addIceCandidate(data.c);
+});
+
+/* ================= LOAD VIDEO ================= */
+
+document.getElementById("setBtn").onclick = () => {
+    const link = document.getElementById("videoUrl").value;
+
+    const yt = link.match(/(?:v=|youtu\.be\/)([\w-]+)/);
+    if (yt) {
+        socket.emit("load-yt", { room, id: yt[1] });
         return;
     }
 
-    socket.emit("set-video", { room, src });
+    alert("Для VK / Rutube нажми «Поделиться экраном»");
 };
 
-socket.on("set-video", data => {
-    iframe.src = data.src;
-});
+socket.on("load-yt", data => loadYouTube(data.id));
 
-/* ===== ЧАТ (пример) ===== */
+/* ================= CHAT ================= */
+
 function sendChat() {
     const msg = document.getElementById("msg").value;
     socket.emit("chat", { room, msg });
 }
 
 socket.on("chat", data => {
-    const div = document.createElement("div");
-    div.textContent = data.msg;
-    document.getElementById("messages").appendChild(div);
+    const d = document.createElement("div");
+    d.textContent = data.msg;
+    messages.appendChild(d);
 });
 </script>
 
