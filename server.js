@@ -1,61 +1,36 @@
 const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
-
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 
 app.use(express.static("public"));
 
-const rooms = {};
-/*
-rooms = {
-  roomName: {
-    code: "1234",
-    video: null
-  }
-}
-*/
-
 io.on("connection", socket => {
+  console.log("Пользователь подключился");
 
-  socket.on("join", ({ room, code }) => {
-
-    // если комнаты нет — создаём
-    if (!rooms[room]) {
-      rooms[room] = {
-        code: code || null,
-        video: null
-      };
-    }
-
-    // если в комнате есть код — проверяем
-    if (rooms[room].code && rooms[room].code !== code) {
-      socket.emit("denied");
-      return;
-    }
-
+  socket.on("join-room", room => {
     socket.join(room);
-    socket.room = room;
-
-    if (rooms[room].video) {
-      socket.emit("video", rooms[room].video);
-    }
+    console.log("Вход в комнату:", room);
   });
 
-  socket.on("video", url => {
-    if (!socket.room) return;
-    rooms[socket.room].video = url;
-    socket.to(socket.room).emit("video", url);
+  socket.on("set-video", data => {
+    io.to(data.room).emit("set-video", data);
+  });
+
+  socket.on("chat", data => {
+    io.to(data.room).emit("chat", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Пользователь вышел");
+  });
+  socket.on("sync", data => {
+    socket.to(data.room).emit("sync", data);
   });
 
 });
 
-server.listen(process.env.PORT || 3000, () => {
-  console.log("КИНО69 запущен (приватные комнаты)");
-});
-socket.on("sync", data => {
-  if (!socket.room) return;
-  socket.to(socket.room).emit("sync", data);
+const PORT = process.env.PORT || 3000;
+http.listen(PORT, () => {
+  console.log("Сервер запущен на порту", PORT);
 });
