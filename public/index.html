@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>КИНО69</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 38px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #ff3c6a;
+    }
+
+    .section {
+      background: rgba(0, 0, 0, 0.35);
+      padding: 15px;
+      border-radius: 14px;
+      margin-bottom: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin: 6px 0;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: none;
+      background: #6c4cff;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #836bff;
+    }
+
+    #player {
+      margin-top: 10px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- ЛОГОТИП -->
+    <div class="logo">
+      <span>К</span>ИНО<span>69</span>
+    </div>
+
+    <!-- КОМНАТА -->
+    <div class="section">
+      <input id="room" placeholder="Название комнаты">
+      <button onclick="join()">Войти в комнату</button>
+    </div>
+
+    <!-- ВИДЕО -->
+    <div class="section">
+      <select id="service">
+        <option value="yt">YouTube</option>
+        <option value="vk">VK Видео</option>
+        <option value="rutube">RuTube</option>
+      </select>
+
+      <input id="videoUrl" placeholder="Ссылка на видео">
+      <button onclick="loadVideo()">Загрузить видео</button>
+    </div>
+
+    <!-- ПЛЕЕР -->
+    <div class="section" id="player"></div>
+
+    <!-- ГОЛОС -->
+    <div class="section">
+        <button id="voiceBtn" onclick="toggleVoice()">🔊 Включить мяу</button>
+
+    </div>
+
+    <!-- ЧАТ -->
+    <div class="section">
+      <input id="msg" placeholder="Сообщение">
+      <button onclick="send()">Отправить</button>
+      <ul id="chat"></ul>
+    </div>
+
+  </div>
+
+  <!-- СКРИПТЫ -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="script.js"></script>
+</body>
+</html>
