@@ -27,7 +27,10 @@ io.on("connection", socket => {
       rooms[room] = {
         code: code || null,
         video: null
-      };
+        socket.on("sync", data => {
+  if (!socket.room) return;
+  socket.to(socket.room).emit("sync", data);
+});
     }
 
     // если в комнате есть код — проверяем
