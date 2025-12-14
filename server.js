@@ -9,18 +9,35 @@ const io = new Server(server);
 app.use(express.static("public"));
 
 const rooms = {};
+/*
+rooms = {
+  roomName: {
+    code: "1234",
+    video: null
+  }
+}
+*/
 
 io.on("connection", socket => {
 
-  socket.on("join", room => {
-    socket.join(room);
-    socket.room = room;
+  socket.on("join", ({ room, code }) => {
 
+    // если комнаты нет — создаём
     if (!rooms[room]) {
       rooms[room] = {
+        code: code || null,
         video: null
       };
     }
+
+    // если в комнате есть код — проверяем
+    if (rooms[room].code && rooms[room].code !== code) {
+      socket.emit("denied");
+      return;
+    }
+
+    socket.join(room);
+    socket.room = room;
 
     if (rooms[room].video) {
       socket.emit("video", rooms[room].video);
@@ -36,5 +53,6 @@ io.on("connection", socket => {
 });
 
 server.listen(process.env.PORT || 3000, () => {
-  console.log("КИНО69 запущен");
+  console.log("КИНО69 запущен (приватные комнаты)");
 });
+
