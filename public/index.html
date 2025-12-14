@@ -99,7 +99,7 @@
 
     <!-- КОМНАТА -->
     <div class="section">
-      <input id="room" placeholder="Название комнаты">
+      <input id="room" placeholder="Код комнаты">
       <button onclick="join()">Войти в комнату</button>
     </div>
 
@@ -113,6 +113,14 @@
 
       <input id="videoUrl" placeholder="Ссылка на видео">
       <button onclick="loadVideo()">Загрузить видео</button>
+      <iframe
+  id="videoFrame"
+  width="100%"
+  height="450"
+  style="margin-top: 15px; border-radius: 12px;"
+  allow="autoplay; fullscreen"
+  allowfullscreen>
+</iframe>
     </div>
 
     <!-- ПЛЕЕР -->
@@ -139,3 +147,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
