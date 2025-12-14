@@ -21,16 +21,16 @@ rooms = {
 io.on("connection", socket => {
 
   socket.on("join", ({ room, code }) => {
-
+socket.on("sync", data => {
+  if (!socket.room) return;
+  socket.to(socket.room).emit("sync", data);
     // если комнаты нет — создаём
     if (!rooms[room]) {
       rooms[room] = {
         code: code || null,
         video: null
-        socket.on("sync", data => {
-  if (!socket.room) return;
-  socket.to(socket.room).emit("sync", data);
-});
+        
+};
     }
 
     // если в комнате есть код — проверяем
