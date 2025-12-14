@@ -21,16 +21,13 @@ rooms = {
 io.on("connection", socket => {
 
   socket.on("join", ({ room, code }) => {
-socket.on("sync", data => {
-  if (!socket.room) return;
-  socket.to(socket.room).emit("sync", data);
+
     // если комнаты нет — создаём
     if (!rooms[room]) {
       rooms[room] = {
         code: code || null,
         video: null
-        
-};
+      };
     }
 
     // если в комнате есть код — проверяем
@@ -58,4 +55,7 @@ socket.on("sync", data => {
 server.listen(process.env.PORT || 3000, () => {
   console.log("КИНО69 запущен (приватные комнаты)");
 });
-
+socket.on("sync", data => {
+  if (!socket.room) return;
+  socket.to(socket.room).emit("sync", data);
+});
