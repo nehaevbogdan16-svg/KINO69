@@ -1,56 +1,40 @@
 const socket = io();
 
+// название комнаты = часть ссылки
+// /room1  /friends  /private123
+const room = location.pathname.replace("/", "") || "main";
+socket.emit("join", room);
+
 const input = document.getElementById("videoUrl");
-const button = document.getElementById("loadVideo");
-const iframe = document.getElementById("videoFrame");
+const btn = document.getElementById("load");
+const player = document.getElementById("player");
 
-// преобразуем обычные ссылки в embed
+// преобразование ссылки в embed
 function toEmbed(url) {
-
-  // YouTube
   if (url.includes("youtube.com/watch")) {
     const id = new URL(url).searchParams.get("v");
     if (id) return "https://www.youtube.com/embed/" + id;
   }
-
   if (url.includes("youtu.be/")) {
-    const id = url.split("youtu.be/")[1];
-    return "https://www.youtube.com/embed/" + id;
+    return "https://www.youtube.com/embed/" + url.split("youtu.be/")[1];
   }
-
-  // VK
-  if (url.includes("vk.com/video")) {
-    const match = url.match(/video(-?\d+)_(\d+)/);
-    if (match) {
-      return `https://vk.com/video_ext.php?oid=${match[1]}&id=${match[2]}&hd=2`;
-    }
-  }
-
-  // RuTube
-  if (url.includes("rutube.ru/video")) {
-    const id = url.split("/video/")[1]?.split("/")[0];
-    if (id) {
-      return "https://rutube.ru/play/embed/" + id;
-    }
-  }
-
   return null;
 }
 
 // загрузка видео
-button.onclick = () => {
-  const url = input.value.trim();
-  const embed = toEmbed(url);
+btn.onclick = () => {
+  const embed = toEmbed(input.value.trim());
 
   if (!embed) {
-    alert("Ссылка не поддерживается");
+    alert("Пока поддерживается только YouTube");
     return;
   }
 
   socket.emit("video", embed);
+  player.src = embed;
 };
 
-// получение видео всеми участниками
-socket.on("video", (url) => {
-  iframe.src = url;
+// получение видео от других
+socket.on("video", url => {
+  player.src = url;
 });
