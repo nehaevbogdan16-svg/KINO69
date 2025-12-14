@@ -8,33 +8,28 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
       background: #0f0f0f;
-      color: white;
+      color: #fff;
+      font-family: Arial, sans-serif;
     }
-
     .container {
       max-width: 900px;
       margin: auto;
       padding: 20px;
     }
-
     .logo {
       text-align: center;
       font-size: 36px;
       font-weight: bold;
-      margin-bottom: 20px;
     }
-
     .logo span {
       color: #ff3c6a;
     }
-
     .controls {
       display: flex;
       gap: 10px;
+      margin-top: 20px;
     }
-
     input {
       flex: 1;
       padding: 10px;
@@ -42,52 +37,43 @@
       border: none;
       outline: none;
     }
-
     button {
       padding: 10px 15px;
       border-radius: 8px;
       border: none;
-      cursor: pointer;
       background: #ff3c6a;
-      color: white;
+      color: #fff;
+      cursor: pointer;
       font-weight: bold;
     }
-
     iframe {
       width: 100%;
       height: 450px;
       margin-top: 15px;
       border-radius: 12px;
-      background: black;
       border: none;
+      background: #000;
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
 
+  <div class="container">
     <div class="logo">КИНО<span>69</span></div>
 
     <div class="controls">
-      <input
-        id="videoUrl"
-        type="text"
-        placeholder="Вставьте ссылку на YouTube / VK / RuTube">
-      <button id="loadVideo">Загрузить</button>
+      <input id="videoUrl" placeholder="Вставь ссылку на YouTube">
+      <button id="load">Загрузить</button>
     </div>
 
-    <!-- ВАЖНО: iframe существует -->
-    <iframe
-      id="videoFrame"
+    <iframe id="player"
       allow="autoplay; fullscreen"
       allowfullscreen>
     </iframe>
-
   </div>
 
-  <!-- НИКАКИХ iframe_api -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
+
