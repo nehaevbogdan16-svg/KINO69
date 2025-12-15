@@ -213,3 +213,18 @@ button:hover {
     width: 100%;
   }
 }
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.logo-text {
+  color: #fff;
+}
+
+.logo-accent {
+  color: #ff3c3c;
+  margin-left: 2px;
+}
