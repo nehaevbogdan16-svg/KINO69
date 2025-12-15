@@ -2,22 +2,35 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>КИНО69</title>
+<title>КИНО69 — совместный просмотр</title>
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<div class="center">
-  <h1>🎬 КИНО69</h1>
-  <p>Совместный синхронный просмотр</p>
+<!-- 🔝 ВЕРХНЯЯ ПАНЕЛЬ -->
+<div class="top">
+    <div class="logo">
+        <span class="logo-text">КИНО</span><span class="logo-accent">69</span>
+    </div>
+</div>
 
-  <button onclick="createRoom()">Создать приватную комнату</button>
+<!-- 🎬 ЦЕНТР -->
+<div class="center">
+    <h1 class="title">Совместный просмотр видео</h1>
+    <p class="subtitle">YouTube • VK • Rutube • Vimeo • Dailymotion</p>
+
+    <input id="roomInput" placeholder="Название комнаты">
+    <button onclick="joinRoom()">Создать / Войти</button>
 </div>
 
 <script>
-function createRoom() {
-  const id = Math.random().toString(36).slice(2, 8);
-  location.href = `/room.html?room=${id}`;
+function joinRoom() {
+    const room = document.getElementById("roomInput").value.trim();
+    if (!room) {
+        alert("Введите название комнаты");
+        return;
+    }
+    location.href = `/room.html?room=${encodeURIComponent(room)}`;
 }
 </script>
 
