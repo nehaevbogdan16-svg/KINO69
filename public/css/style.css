@@ -138,4 +138,25 @@ body {
   margin-left: 2px;
 }
 
+/* ===== INDEX PAGE ===== */
+.title {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #aaa;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.center input {
+  width: 260px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
 
