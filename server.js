@@ -2,104 +2,56 @@ const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
-const path = require("path");
-
-app.get("/room/:room", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "room.html"));
-});
 
 app.use(express.static("public"));
 
-/* ===== ХРАНЕНИЕ ГОЛОСОВЫХ КОМНАТ ===== */
-let voiceRooms = {};
+const voiceRooms = {};
 
 io.on("connection", socket => {
-  console.log("Пользователь подключился:", socket.id);
-
-  /* ===== ВХОД В КОМНАТУ ===== */
   socket.on("join-room", room => {
     socket.join(room);
-    console.log("Вход в комнату:", room);
   });
 
-  /* ===== ВИДЕО ===== */
   socket.on("set-video", data => {
     io.to(data.room).emit("set-video", data);
   });
 
-  /* ===== ЧАТ ===== */
   socket.on("chat", data => {
     io.to(data.room).emit("chat", data);
   });
 
-  /* ===== СИНХРОНИЗАЦИЯ (play / pause) ===== */
+  /* ===== YouTube SYNC ===== */
   socket.on("sync", data => {
-    socket.to(data.room).emit("sync", data);
+    io.to(data.room).emit("sync", data);
   });
 
-  /* =====================================================
-     🎤 ГОЛОСОВОЙ ЧАТ (WebRTC Signaling)
-     ===================================================== */
-
+  /* ===== Voice ===== */
   socket.on("voice-join", room => {
     socket.join(room);
+    socket.room = room;
 
     if (!voiceRooms[room]) voiceRooms[room] = [];
     voiceRooms[room].push(socket.id);
 
-    // отправляем новому пользователю список остальных
-    socket.emit(
-      "voice-users",
-      voiceRooms[room].filter(id => id !== socket.id)
-    );
-
-    console.log("🎤 Вошёл в голос:", room, socket.id);
+    socket.emit("voice-users", voiceRooms[room].filter(id => id !== socket.id));
   });
+
+  socket.on("offer", d => io.to(d.to).emit("offer", { from: socket.id, offer: d.offer }));
+  socket.on("answer", d => io.to(d.to).emit("answer", { from: socket.id, answer: d.answer }));
+  socket.on("ice", d => io.to(d.to).emit("ice", { from: socket.id, candidate: d.candidate }));
 
   socket.on("voice-leave", room => {
-    socket.leave(room);
-
-    if (voiceRooms[room]) {
-      voiceRooms[room] = voiceRooms[room].filter(id => id !== socket.id);
-      socket.to(room).emit("voice-leave", socket.id);
-    }
-
-    console.log("🔇 Вышел из голоса:", room, socket.id);
+    if (!voiceRooms[room]) return;
+    voiceRooms[room] = voiceRooms[room].filter(id => id !== socket.id);
+    socket.to(room).emit("voice-leave", socket.id);
   });
 
-  socket.on("offer", data => {
-    io.to(data.to).emit("offer", {
-      from: socket.id,
-      offer: data.offer
-    });
-  });
-
-  socket.on("answer", data => {
-    io.to(data.to).emit("answer", {
-      from: socket.id,
-      answer: data.answer
-    });
-  });
-
-  socket.on("ice", data => {
-    io.to(data.to).emit("ice", {
-      from: socket.id,
-      candidate: data.candidate
-    });
-  });
-
-  /* ===== ОТКЛЮЧЕНИЕ ===== */
   socket.on("disconnect", () => {
-    console.log("Пользователь вышел:", socket.id);
-
-    for (const room in voiceRooms) {
-      voiceRooms[room] = voiceRooms[room].filter(id => id !== socket.id);
-      socket.to(room).emit("voice-leave", socket.id);
+    for (const r in voiceRooms) {
+      voiceRooms[r] = voiceRooms[r].filter(id => id !== socket.id);
+      socket.to(r).emit("voice-leave", socket.id);
     }
   });
 });
 
-const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
-  console.log("Сервер запущен на порту", PORT);
-});
+http.listen(3000, () => console.log("✅ Сервер запущен"));
