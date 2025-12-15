@@ -1,122 +1,120 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f0f0f;
+  font-family: "Inter", Arial, sans-serif;
+  background: radial-gradient(circle at top, #141414, #0b0b0b);
   color: #fff;
 }
 
-.center {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-button {
-  padding: 12px 20px;
-  background: #ff3c3c;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-button:hover {
-  background: #ff5c5c;
-}
-
+/* ===== TOP BAR ===== */
 .top {
-  padding: 10px;
+  height: 60px;
   display: flex;
+  align-items: center;
   gap: 10px;
+  padding: 0 16px;
+  background: #111;
+  border-bottom: 1px solid #222;
 }
 
 .top input {
   flex: 1;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: 8px;
   border: none;
+  background: #1c1c1c;
+  color: #fff;
 }
 
+.top button {
+  padding: 10px 18px;
+  background: #ff3c3c;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* ===== LAYOUT ===== */
 .container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
   height: calc(100vh - 60px);
 }
 
+/* ===== PLAYER ===== */
 .player {
-  flex: 3;
+  background: #000;
+  position: relative;
 }
 
 .player iframe {
   width: 100%;
   height: 100%;
-  border: none;
 }
 
+/* ===== CHAT ===== */
 .chat {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  background: #1b1b1b;
+  background: #121212;
+  border-left: 1px solid #222;
 }
 
 #messages {
   flex: 1;
-  padding: 10px;
+  padding: 14px;
   overflow-y: auto;
 }
 
-.chat input {
-  padding: 10px;
-  border: none;
+#messages div {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  background: #1f1f1f;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-.chat button {
-  border-radius: 0;
-}
-
-.voice-controls {
-    margin: 10px 0;
-    text-align: center;
-}
-
-.voice-controls button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-/* ===== ЧАТ + МИКРОФОН ===== */
+/* ===== CHAT CONTROLS ===== */
 .chat-controls {
   display: flex;
   gap: 8px;
-  align-items: center;
   padding: 10px;
+  background: #0f0f0f;
+  border-top: 1px solid #222;
 }
 
 .chat-controls input {
   flex: 1;
   padding: 10px;
+  border-radius: 8px;
+  background: #1c1c1c;
+  color: #fff;
   border: none;
-  border-radius: 6px;
 }
 
 .chat-controls button {
   padding: 10px 14px;
-  border-radius: 6px;
-  margin: 0;
+  border-radius: 8px;
+  background: #ff3c3c;
 }
 
-/* 🎤 кнопка микрофона */
+/* 🎤 MIC */
 #micBtn {
+  background: #1f1f1f;
   font-size: 18px;
-  background: #2b2b2b;
 }
 
-/* 🔴 микрофон включён */
 #micBtn.active {
   background: #ff3c3c;
-  color: #fff;
+}
+
+/* ===== SCROLL ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
 }
