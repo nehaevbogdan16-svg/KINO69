@@ -118,3 +118,19 @@ body {
   background: #333;
   border-radius: 3px;
 }
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+.logo-text {
+  color: #ffffff;
+}
+
+.logo-accent {
+  color: #ff3c3c;
+  margin-left: 2px;
+}
