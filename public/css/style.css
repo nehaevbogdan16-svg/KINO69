@@ -1,34 +1,43 @@
 /* ===== ОБЩИЕ СТИЛИ ===== */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f0f0f;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #121212;
   color: #fff;
 }
 
 .top {
-  padding: 10px;
+  padding: 12px;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+  background: #1f1f1f;
+  border-bottom: 1px solid #2a2a2a;
 }
 
 .top input {
   flex: 1;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.top input::placeholder {
+  color: #aaa;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 10px 18px;
   background: #ff3c3c;
   border: none;
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: 0.2s;
+  font-weight: bold;
 }
 
 button:hover {
@@ -42,28 +51,36 @@ button:hover {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
 }
 
 .center input {
   width: 100%;
   max-width: 300px;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
   border: none;
+  background: #2a2a2a;
+  color: #fff;
 }
 
 .container {
   display: flex;
   height: calc(100vh - 60px);
+  gap: 10px;
   flex-wrap: wrap;
+  padding: 10px;
 }
 
 .player {
   flex: 3;
   min-width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
   height: 450px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 .player iframe {
@@ -74,38 +91,55 @@ button:hover {
 
 .chat {
   flex: 1;
-  min-width: 250px;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
-  background: #1b1b1b;
-  margin-top: 10px;
+  background: #1f1f1f;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 #messages {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #1f1f1f;
+}
+
+#messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
 }
 
 .chat-controls {
   display: flex;
-  gap: 5px;
-  padding: 5px;
+  gap: 6px;
+  padding: 8px;
+  background: #2a2a2a;
 }
 
 .chat-controls input {
   flex: 1;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 10px;
+  border-radius: 8px;
   border: none;
+  background: #1f1f1f;
+  color: #fff;
 }
 
 .chat-controls button {
-  border-radius: 6px;
-  padding: 8px 12px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-/* ===== МИКРОФОН АКТИВНЫЙ ===== */
 #micBtn.active {
   background: #4caf50;
 }
@@ -132,7 +166,7 @@ button:hover {
 
   .top {
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
   }
 
   .chat-controls {
