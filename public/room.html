@@ -26,6 +26,11 @@
 
     </div>
 
+    <!-- 🎤 ГОЛОСОВОЙ ЧАТ -->
+    <div class="voice-controls" style="text-align:center; margin:10px 0;">
+        <button id="micBtn">🎤 Включить микрофон</button>
+    </div>
+
     <div class="chat">
         <div id="messages"></div>
         <input id="msg" placeholder="Сообщение">
@@ -44,39 +49,25 @@ const iframe = document.getElementById("player");
 
 socket.emit("join-room", room);
 
+/* ===== ВИДЕО ===== */
 btn.onclick = () => {
     const link = input.value.trim();
     let m, src = null;
 
-    // ▶ VK Video
     m = link.match(/video(-?\d+)_(\d+)/);
-    if (m) {
-        src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
-    }
+    if (m) src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
 
-    // ▶ YouTube
     m = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-    if (m) {
-        src = `https://www.youtube.com/embed/${m[1]}`;
-    }
+    if (m) src = `https://www.youtube.com/embed/${m[1]}`;
 
-    // ▶ Rutube
     m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
-    if (m) {
-        src = `https://rutube.ru/play/embed/${m[1]}`;
-    }
+    if (m) src = `https://rutube.ru/play/embed/${m[1]}`;
 
-    // ▶ Vimeo
     m = link.match(/vimeo\.com\/(\d+)/);
-    if (m) {
-        src = `https://player.vimeo.com/video/${m[1]}`;
-    }
+    if (m) src = `https://player.vimeo.com/video/${m[1]}`;
 
-    // ▶ Dailymotion
     m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-    if (m) {
-        src = `https://www.dailymotion.com/embed/video/${m[1]}`;
-    }
+    if (m) src = `https://www.dailymotion.com/embed/video/${m[1]}`;
 
     if (!src) {
         alert("❌ Ссылка не поддерживается");
@@ -90,7 +81,7 @@ socket.on("set-video", data => {
     iframe.src = data.src;
 });
 
-/* ===== ЧАТ (пример) ===== */
+/* ===== ЧАТ ===== */
 function sendChat() {
     const msg = document.getElementById("msg").value;
     socket.emit("chat", { room, msg });
@@ -101,6 +92,29 @@ socket.on("chat", data => {
     div.textContent = data.msg;
     document.getElementById("messages").appendChild(div);
 });
+
+/* ===== МИКРОФОН (ВКЛ / ВЫКЛ) ===== */
+let micStream = null;
+let micEnabled = false;
+const micBtn = document.getElementById("micBtn");
+
+micBtn.onclick = async () => {
+    if (!micEnabled) {
+        try {
+            micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            micEnabled = true;
+            micBtn.textContent = "🔇 Выключить микрофон";
+            console.log("Микрофон включён");
+        } catch (e) {
+            alert("❌ Нет доступа к микрофону");
+        }
+    } else {
+        micStream.getTracks().forEach(t => t.stop());
+        micEnabled = false;
+        micBtn.textContent = "🎤 Включить микрофон";
+        console.log("Микрофон выключен");
+    }
+};
 </script>
 
 </body>
