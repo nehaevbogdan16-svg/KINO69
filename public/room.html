@@ -5,159 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Комната — КИНО69</title>
 <link rel="stylesheet" href="/css/style.css">
-<script src="https://www.youtube.com/iframe_api"></script>
 </head>
-
 <body>
 
-<!-- 🔝 ШАПКА -->
 <div class="top">
-    <div class="logo">
-        <span class="logo-text">КИНО</span><span class="logo-accent">69</span>
-    </div>
-
-    <div class="top-controls">
-        <input id="videoUrl" placeholder="YouTube / VK / Rutube / Vimeo / Dailymotion">
-        <button id="setBtn">Загрузить</button>
-    </div>
+    <input id="videoUrl" placeholder="YouTube / VK / Rutube / Vimeo / Dailymotion">
+    <button id="setBtn">Загрузить</button>
 </div>
 
-<!-- 🎬 ОСНОВНОЙ КОНТЕНТ -->
 <div class="container">
-
-    <!-- ПЛЕЕР -->
     <div class="player">
-        <!-- YouTube API -->
-        <div id="yt-player" style="display:none; width:100%; height:100%;"></div>
-
-        <!-- Остальные сервисы -->
-        <iframe
-            id="iframe-player"
-            allowfullscreen>
-        </iframe>
+        <iframe id="player" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
     </div>
 
-    <!-- ЧАТ -->
     <div class="chat">
         <div id="messages"></div>
-
         <div class="chat-controls">
             <input id="msg" placeholder="Сообщение">
-            <button onclick="sendChat()">➤</button>
-
-            <!-- 🎤 МИКРОФОН -->
+            <button onclick="sendChat()">Отправить</button>
             <button id="micBtn" title="Микрофон">🎤</button>
-
-            <!-- 🔊 ГРОМКОСТЬ -->
-            <input type="range" id="voiceVolume" min="0" max="1" step="0.05" value="1">
         </div>
     </div>
-
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-
 <script>
-/* =====================================================
-   SOCKET / ОСНОВА
-===================================================== */
 const socket = io();
 const room = new URLSearchParams(location.search).get("room");
 
-socket.emit("join-room", room);
-
-/* =====================================================
-   ПЛЕЕР
-===================================================== */
 const btn = document.getElementById("setBtn");
 const input = document.getElementById("videoUrl");
-const iframe = document.getElementById("iframe-player");
-const ytDiv = document.getElementById("yt-player");
+const iframe = document.getElementById("player");
+const micBtn = document.getElementById("micBtn");
 
-let ytPlayer;
-let isYouTube = false;
-let ignoreSync = false;
+socket.emit("join-room", room);
 
-/* YouTube API */
-function onYouTubeIframeAPIReady() {
-    ytPlayer = new YT.Player("yt-player", {
-        events: { onStateChange }
-    });
-}
-
-function onStateChange(e) {
-    if (ignoreSync) return;
-
-    if (e.data === YT.PlayerState.PLAYING) {
-        socket.emit("sync", {
-            room,
-            type: "play",
-            time: ytPlayer.getCurrentTime()
-        });
-    }
-
-    if (e.data === YT.PlayerState.PAUSED) {
-        socket.emit("sync", {
-            room,
-            type: "pause",
-            time: ytPlayer.getCurrentTime()
-        });
-    }
-}
-
-socket.on("sync", data => {
-    if (!isYouTube || !ytPlayer) return;
-
-    ignoreSync = true;
-
-    ytPlayer.seekTo(data.time, true);
-    data.type === "play" ? ytPlayer.playVideo() : ytPlayer.pauseVideo();
-
-    setTimeout(() => ignoreSync = false, 300);
-});
-
-/* Загрузка видео */
 btn.onclick = () => {
     const link = input.value.trim();
-    let m;
+    let m, src = null;
 
-    // YouTube
+    m = link.match(/video(-?\d+)_(\d+)/);
+    if (m) src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
+
     m = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-    if (m) {
-        isYouTube = true;
-        iframe.style.display = "none";
-        ytDiv.style.display = "block";
-        ytPlayer.loadVideoById(m[1]);
-        return;
-    }
+    if (m) src = `https://www.youtube.com/embed/${m[1]}`;
 
-    isYouTube = false;
-    ytDiv.style.display = "none";
-    iframe.style.display = "block";
+    m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
+    if (m) src = `https://rutube.ru/play/embed/${m[1]}`;
 
-    if ((m = link.match(/video(-?\d+)_(\d+)/)))
-        iframe.src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
+    m = link.match(/vimeo\.com\/(\d+)/);
+    if (m) src = `https://player.vimeo.com/video/${m[1]}`;
 
-    else if ((m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/)))
-        iframe.src = `https://rutube.ru/play/embed/${m[1]}`;
+    m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+    if (m) src = `https://www.dailymotion.com/embed/video/${m[1]}`;
 
-    else if ((m = link.match(/vimeo\.com\/(\d+)/)))
-        iframe.src = `https://player.vimeo.com/video/${m[1]}`;
-
-    else if ((m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/)))
-        iframe.src = `https://www.dailymotion.com/embed/video/${m[1]}`;
-
-    else alert("❌ Ссылка не поддерживается");
+    if (!src) return alert("❌ Ссылка не поддерживается");
+    socket.emit("set-video", { room, src });
 };
 
-/* =====================================================
-   ЧАТ
-===================================================== */
+socket.on("set-video", data => iframe.src = data.src);
+
 function sendChat() {
-    const msg = document.getElementById("msg");
-    if (!msg.value) return;
-    socket.emit("chat", { room, msg: msg.value });
-    msg.value = "";
+    const msg = document.getElementById("msg").value;
+    socket.emit("chat", { room, msg });
+    document.getElementById("msg").value = "";
 }
 
 socket.on("chat", data => {
@@ -166,82 +77,51 @@ socket.on("chat", data => {
     document.getElementById("messages").appendChild(div);
 });
 
-/* =====================================================
-   🎤 ГОЛОСОВОЙ ЧАТ WebRTC
-===================================================== */
-let localStream = null;
-let peers = {};
-let micOn = false;
-
-const micBtn = document.getElementById("micBtn");
-const volumeSlider = document.getElementById("voiceVolume");
-let voiceVolume = 1;
-
-const iceConfig = {
-    iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
-};
-
-volumeSlider.oninput = e => {
-    voiceVolume = e.target.value;
-    document.querySelectorAll("audio.voice").forEach(a => a.volume = voiceVolume);
-};
+/* ===== Голосовой чат (WebRTC) ===== */
+let localStream = null, peers = {}, micEnabled = false;
+const iceConfig = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 
 micBtn.onclick = async () => {
-    if (!micOn) {
-        localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (!micEnabled) {
+        localStream = await navigator.mediaDevices.getUserMedia({ audio:true });
         socket.emit("voice-join", room);
         micBtn.textContent = "🔇";
-        micOn = true;
+        micBtn.classList.add("active");
+        micEnabled = true;
     } else {
         localStream.getTracks().forEach(t => t.stop());
         socket.emit("voice-leave", room);
         micBtn.textContent = "🎤";
-        micOn = false;
+        micBtn.classList.remove("active");
+        micEnabled = false;
     }
 };
 
 function createPeer(id, initiator) {
     const pc = new RTCPeerConnection(iceConfig);
     peers[id] = pc;
-
-    localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
-
-    pc.onicecandidate = e => {
-        if (e.candidate)
-            socket.emit("ice", { to: id, candidate: e.candidate });
-    };
-
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+    pc.onicecandidate = e => e.candidate && socket.emit("ice", { to:id, candidate:e.candidate });
     pc.ontrack = e => {
         const audio = document.createElement("audio");
         audio.srcObject = e.streams[0];
         audio.autoplay = true;
-        audio.volume = voiceVolume;
-        audio.className = "voice";
         document.body.appendChild(audio);
     };
-
-    if (initiator) {
-        pc.createOffer().then(o => {
-            pc.setLocalDescription(o);
-            socket.emit("offer", { to: id, offer: o });
-        });
-    }
+    if (initiator) pc.createOffer().then(offer=>{pc.setLocalDescription(offer); socket.emit("offer",{to:id,offer})});
 }
 
-socket.on("voice-users", users => users.forEach(id => createPeer(id, true)));
-socket.on("offer", async d => {
-    createPeer(d.from, false);
-    await peers[d.from].setRemoteDescription(d.offer);
-    const a = await peers[d.from].createAnswer();
-    await peers[d.from].setLocalDescription(a);
-    socket.emit("answer", { to: d.from, answer: a });
+socket.on("voice-users", users => users.forEach(id=>createPeer(id,true)));
+socket.on("offer", async data => {
+    createPeer(data.from,false);
+    await peers[data.from].setRemoteDescription(data.offer);
+    const answer = await peers[data.from].createAnswer();
+    await peers[data.from].setLocalDescription(answer);
+    socket.emit("answer",{to:data.from,answer});
 });
-socket.on("answer", d => peers[d.from].setRemoteDescription(d.answer));
-socket.on("ice", d => peers[d.from]?.addIceCandidate(d.candidate));
-socket.on("voice-leave", id => {
-    peers[id]?.close();
-    delete peers[id];
-});
+socket.on("answer", data => peers[data.from].setRemoteDescription(data.answer));
+socket.on("ice", data => peers[data.from]?.addIceCandidate(data.candidate));
+socket.on("voice-leave", id => { if(peers[id]) { peers[id].close(); delete peers[id]; }});
 </script>
 
 </body>
