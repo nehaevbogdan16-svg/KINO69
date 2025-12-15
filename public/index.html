@@ -5,12 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>КИНО69 — совместный просмотр</title>
 <link rel="stylesheet" href="/css/style.css">
-
-<!-- PWA -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#ff3c3c">
 </head>
-
 <body>
 
 <!-- 🔝 ВЕРХНЯЯ ПАНЕЛЬ -->
@@ -26,33 +21,24 @@
     <p class="subtitle">YouTube • VK • Rutube • Vimeo • Dailymotion</p>
 
     <input id="roomInput" placeholder="Название комнаты">
-
-    <div class="buttons">
-        <button onclick="joinRoom()">Создать / Войти</button>
-        <button class="secondary" onclick="randomRoom()">🎲 Случайная комната</button>
-    </div>
+    <button onclick="joinRoom()">Создать / Войти</button>
+    <button onclick="joinRandomRoom()">Случайная комната 🎲</button>
 </div>
 
 <script>
-/* ===== ВХОД ПО ИМЕНИ ===== */
 function joinRoom() {
     const room = document.getElementById("roomInput").value.trim();
-    if (!room) {
-        alert("Введите название комнаты");
-        return;
-    }
-    location.href = `/room/${encodeURIComponent(room)}`;
+    if (!room) return alert("Введите название комнаты");
+    location.href = `/room.html?room=${encodeURIComponent(room)}`;
 }
 
-/* ===== 🎲 СЛУЧАЙНАЯ КОМНАТА ===== */
-function randomRoom() {
-    const room = Math.random().toString(36).substring(2, 8);
-    location.href = `/room.html?room=${room}`;
+function joinRandomRoom() {
+    const room = Math.random().toString(36).slice(2,8);
+    location.href = `/room.html?room=${encodeURIComponent(room)}`;
 }
 </script>
 
 </body>
 </html>
-
 
 
