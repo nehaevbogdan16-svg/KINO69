@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>КИНО69</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="center">
+  <h1>🎬 КИНО69</h1>
+  <p>Совместный синхронный просмотр</p>
+
+  <button onclick="createRoom()">Создать приватную комнату</button>
+</div>
+
+<script>
+function createRoom() {
+  const id = Math.random().toString(36).slice(2, 8);
+  location.href = `/room.html?room=${id}`;
+}
+</script>
+
+</body>
+</html>
