@@ -35,7 +35,7 @@ function joinRoom() {
         alert("Введите название комнаты");
         return;
     }
-    location.href = `/room.html?room=${encodeURIComponent(room)}`;
+    location.href = `/room/${encodeURIComponent(room)}`;
 }
 
 /* ===== 🎲 СЛУЧАЙНАЯ КОМНАТА ===== */
@@ -47,3 +47,4 @@ function randomRoom() {
 
 </body>
 </html>
+
