@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Комната — КИНО69</title>
 <link rel="stylesheet" href="/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -15,14 +16,11 @@
 <div class="container">
     <div class="player">
 
-        <!-- 🎬 ЕДИНЫЙ ПЛЕЕР -->
-        <iframe
-            id="player"
-            width="100%"
-            height="450"
-            frameborder="0"
-            allowfullscreen>
-        </iframe>
+        <!-- YouTube API контейнер -->
+        <div id="yt-player" style="display:none; width:100%; height:450px;"></div>
+
+        <!-- Обычный iframe для остальных сервисов -->
+        <iframe id="iframe-player" width="100%" height="450" frameborder="0" allowfullscreen></iframe>
 
     </div>
 
@@ -34,63 +32,112 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
 const socket = io();
 const room = new URLSearchParams(location.search).get("room");
+
 const btn = document.getElementById("setBtn");
 const input = document.getElementById("videoUrl");
-const iframe = document.getElementById("player");
+const iframe = document.getElementById("iframe-player");
+const ytDiv = document.getElementById("yt-player");
+
+let ytPlayer = null;
+let isYouTube = false;
+let ignoreEvent = false;
 
 socket.emit("join-room", room);
 
+/* ===== YouTube API ===== */
+function onYouTubeIframeAPIReady() {
+    ytPlayer = new YT.Player("yt-player", {
+        height: "450",
+        width: "100%",
+        events: { onStateChange: onYTStateChange }
+    });
+}
+
+function onYTStateChange(e) {
+    if (ignoreEvent) return;
+
+    const time = ytPlayer.getCurrentTime();
+
+    if (e.data === YT.PlayerState.PLAYING) {
+        socket.emit("yt-play", { room, time });
+    }
+
+    if (e.data === YT.PlayerState.PAUSED) {
+        socket.emit("yt-pause", { room, time });
+    }
+}
+
+/* ===== ЗАГРУЗКА ВИДЕО ===== */
 btn.onclick = () => {
     const link = input.value.trim();
-    let m, src = null;
-
-    // ▶ VK Video
-    m = link.match(/video(-?\d+)_(\d+)/);
-    if (m) {
-        src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
-    }
+    let m;
 
     // ▶ YouTube
     m = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
     if (m) {
-        src = `https://www.youtube.com/embed/${m[1]}`;
-    }
-
-    // ▶ Rutube
-    m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
-    if (m) {
-        src = `https://rutube.ru/play/embed/${m[1]}`;
-    }
-
-    // ▶ Vimeo
-    m = link.match(/vimeo\.com\/(\d+)/);
-    if (m) {
-        src = `https://player.vimeo.com/video/${m[1]}`;
-    }
-
-    // ▶ Dailymotion
-    m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
-    if (m) {
-        src = `https://www.dailymotion.com/embed/video/${m[1]}`;
-    }
-
-    if (!src) {
-        alert("❌ Ссылка не поддерживается");
+        isYouTube = true;
+        iframe.style.display = "none";
+        ytDiv.style.display = "block";
+        socket.emit("load-yt", { room, videoId: m[1] });
         return;
     }
 
-    socket.emit("set-video", { room, src });
+    isYouTube = false;
+    ytDiv.style.display = "none";
+    iframe.style.display = "block";
+
+    // ▶ VK
+    m = link.match(/video(-?\d+)_(\d+)/);
+    if (m) iframe.src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
+
+    // ▶ Rutube
+    m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
+    if (m) iframe.src = `https://rutube.ru/play/embed/${m[1]}`;
+
+    // ▶ Vimeo
+    m = link.match(/vimeo\.com\/(\d+)/);
+    if (m) iframe.src = `https://player.vimeo.com/video/${m[1]}`;
+
+    // ▶ Dailymotion
+    m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+    if (m) iframe.src = `https://www.dailymotion.com/embed/video/${m[1]}`;
 };
 
-socket.on("set-video", data => {
-    iframe.src = data.src;
+/* ===== СИНХРОНИЗАЦИЯ YOUTUBE ===== */
+socket.on("load-yt", data => {
+    isYouTube = true;
+    iframe.style.display = "none";
+    ytDiv.style.display = "block";
+
+    if (ytPlayer) {
+        ignoreEvent = true;
+        ytPlayer.loadVideoById(data.videoId);
+        setTimeout(() => ignoreEvent = false, 300);
+    }
 });
 
-/* ===== ЧАТ (пример) ===== */
+socket.on("yt-play", data => {
+    if (!isYouTube) return;
+    ignoreEvent = true;
+    ytPlayer.seekTo(data.time, true);
+    ytPlayer.playVideo();
+    setTimeout(() => ignoreEvent = false, 300);
+});
+
+socket.on("yt-pause", data => {
+    if (!isYouTube) return;
+    ignoreEvent = true;
+    ytPlayer.seekTo(data.time, true);
+    ytPlayer.pauseVideo();
+    setTimeout(() => ignoreEvent = false, 300);
+});
+
+/* ===== ЧАТ ===== */
 function sendChat() {
     const msg = document.getElementById("msg").value;
     socket.emit("chat", { room, msg });
