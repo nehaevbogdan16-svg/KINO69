@@ -6,20 +6,23 @@ body {
   color: #fff;
 }
 
+/* ===== ВЕРХНЯЯ ПАНЕЛЬ ===== */
 .top {
   padding: 12px;
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
+  justify-content: space-between;
   background: #1f1f1f;
   border-bottom: 1px solid #2a2a2a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
 
 .top input {
   flex: 1;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   background: #2a2a2a;
   color: #fff;
@@ -36,14 +39,16 @@ button {
   color: white;
   border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.3s;
   font-weight: bold;
 }
 
 button:hover {
   background: #ff5c5c;
+  box-shadow: 0 0 10px #ff5c5c;
 }
 
+/* ===== ЦЕНТРАЛЬНЫЙ БЛОК ===== */
 .center {
   height: calc(100vh - 60px);
   display: flex;
@@ -59,28 +64,33 @@ button:hover {
   max-width: 300px;
   padding: 12px;
   margin: 10px 0;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   background: #2a2a2a;
   color: #fff;
 }
 
+.center button {
+  margin-top: 10px;
+}
+
+/* ===== КОНТЕЙНЕР ВИДЕО + ЧАТ ===== */
 .container {
   display: flex;
-  height: calc(100vh - 60px);
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
-  padding: 10px;
+  padding: 12px;
 }
 
 .player {
   flex: 3;
   min-width: 300px;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   background: #000;
   height: 450px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  position: relative;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
 }
 
 .player iframe {
@@ -89,34 +99,43 @@ button:hover {
   border: none;
 }
 
+/* ===== ЧАТ ===== */
 .chat {
   flex: 1;
   min-width: 280px;
   display: flex;
   flex-direction: column;
   background: #1f1f1f;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
 }
 
 #messages {
   flex: 1;
   padding: 12px;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #555 #1f1f1f;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-#messages::-webkit-scrollbar {
-  width: 6px;
+/* Пузырьки сообщений */
+#messages div {
+  padding: 10px 14px;
+  background: #2a2a2a;
+  border-radius: 20px;
+  max-width: 80%;
+  word-wrap: break-word;
+  animation: fadeIn 0.3s ease;
 }
 
-#messages::-webkit-scrollbar-thumb {
-  background-color: #555;
-  border-radius: 3px;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== ЧАТ + МИКРОФОН ===== */
 .chat-controls {
   display: flex;
   gap: 6px;
@@ -127,21 +146,30 @@ button:hover {
 .chat-controls input {
   flex: 1;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 14px;
   border: none;
   background: #1f1f1f;
   color: #fff;
 }
 
 .chat-controls button {
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 10px 14px;
   font-size: 16px;
   font-weight: bold;
+  transition: 0.2s;
 }
 
 #micBtn.active {
   background: #4caf50;
+  box-shadow: 0 0 12px #4caf50;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 #4caf50; }
+  50% { box-shadow: 0 0 20px #4caf50; }
+  100% { box-shadow: 0 0 0 #4caf50; }
 }
 
 /* ===== АДАПТИВ ===== */
