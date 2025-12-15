@@ -119,4 +119,23 @@ body {
   border-radius: 3px;
 }
 
+/* ===== ЛОГОТИП КИНО69 ===== */
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-right: 15px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.logo-text {
+  color: #ffffff;
+}
+
+.logo-accent {
+  color: #ff3c3c;
+  margin-left: 2px;
+}
+
 
