@@ -9,31 +9,17 @@
 <body>
 
 <div class="top">
-    <!-- 🔥 ЛОГОТИП -->
-    <div class="logo">
-        <span class="logo-text">КИНО</span><span class="logo-accent">69</span>
-    </div>
-
     <input id="videoUrl" placeholder="YouTube / VK / Rutube / Vimeo / Dailymotion">
     <button id="setBtn">Загрузить</button>
 </div>
 
-
 <div class="container">
     <div class="player">
-        <iframe
-            id="player"
-            width="100%"
-            height="450"
-            frameborder="0"
-            allowfullscreen>
-        </iframe>
+        <iframe id="player" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div class="chat">
         <div id="messages"></div>
-
-        <!-- ✅ КНОПКИ ЧАТА + МИКРОФОН -->
         <div class="chat-controls">
             <input id="msg" placeholder="Сообщение">
             <button onclick="sendChat()">Отправить</button>
@@ -43,17 +29,14 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-
 <script>
-/* =====================================================
-   ОСНОВНОЙ КОД
-   ===================================================== */
 const socket = io();
-const room = location.pathname.split("/").pop();
+const room = new URLSearchParams(location.search).get("room");
 
 const btn = document.getElementById("setBtn");
 const input = document.getElementById("videoUrl");
 const iframe = document.getElementById("player");
+const micBtn = document.getElementById("micBtn");
 
 socket.emit("join-room", room);
 
@@ -77,15 +60,11 @@ btn.onclick = () => {
     if (m) src = `https://www.dailymotion.com/embed/video/${m[1]}`;
 
     if (!src) return alert("❌ Ссылка не поддерживается");
-
     socket.emit("set-video", { room, src });
 };
 
-socket.on("set-video", data => {
-    iframe.src = data.src;
-});
+socket.on("set-video", data => iframe.src = data.src);
 
-/* ===== ЧАТ ===== */
 function sendChat() {
     const msg = document.getElementById("msg").value;
     socket.emit("chat", { room, msg });
@@ -98,22 +77,13 @@ socket.on("chat", data => {
     document.getElementById("messages").appendChild(div);
 });
 
-/* =====================================================
-   🎤 WEBRTC ГОЛОСОВОЙ ЧАТ
-   ===================================================== */
-let localStream = null;
-let peers = {};
-let micEnabled = false;
-
-const micBtn = document.getElementById("micBtn");
-
-const iceConfig = {
-    iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
-};
+/* ===== Голосовой чат (WebRTC) ===== */
+let localStream = null, peers = {}, micEnabled = false;
+const iceConfig = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 
 micBtn.onclick = async () => {
     if (!micEnabled) {
-        localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        localStream = await navigator.mediaDevices.getUserMedia({ audio:true });
         socket.emit("voice-join", room);
         micBtn.textContent = "🔇";
         micBtn.classList.add("active");
@@ -130,62 +100,29 @@ micBtn.onclick = async () => {
 function createPeer(id, initiator) {
     const pc = new RTCPeerConnection(iceConfig);
     peers[id] = pc;
-
-    localStream.getTracks().forEach(track =>
-        pc.addTrack(track, localStream)
-    );
-
-    pc.onicecandidate = e => {
-        if (e.candidate) {
-            socket.emit("ice", { to: id, candidate: e.candidate });
-        }
-    };
-
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+    pc.onicecandidate = e => e.candidate && socket.emit("ice", { to:id, candidate:e.candidate });
     pc.ontrack = e => {
         const audio = document.createElement("audio");
         audio.srcObject = e.streams[0];
         audio.autoplay = true;
         document.body.appendChild(audio);
     };
-
-    if (initiator) {
-        pc.createOffer().then(offer => {
-            pc.setLocalDescription(offer);
-            socket.emit("offer", { to: id, offer });
-        });
-    }
+    if (initiator) pc.createOffer().then(offer=>{pc.setLocalDescription(offer); socket.emit("offer",{to:id,offer})});
 }
 
-socket.on("voice-users", users => {
-    users.forEach(id => createPeer(id, true));
-});
-
+socket.on("voice-users", users => users.forEach(id=>createPeer(id,true)));
 socket.on("offer", async data => {
-    createPeer(data.from, false);
+    createPeer(data.from,false);
     await peers[data.from].setRemoteDescription(data.offer);
     const answer = await peers[data.from].createAnswer();
     await peers[data.from].setLocalDescription(answer);
-    socket.emit("answer", { to: data.from, answer });
+    socket.emit("answer",{to:data.from,answer});
 });
-
-socket.on("answer", data => {
-    peers[data.from].setRemoteDescription(data.answer);
-});
-
-socket.on("ice", data => {
-    peers[data.from]?.addIceCandidate(data.candidate);
-});
-
-socket.on("voice-leave", id => {
-    if (peers[id]) {
-        peers[id].close();
-        delete peers[id];
-    }
-});
+socket.on("answer", data => peers[data.from].setRemoteDescription(data.answer));
+socket.on("ice", data => peers[data.from]?.addIceCandidate(data.candidate));
+socket.on("voice-leave", id => { if(peers[id]) { peers[id].close(); delete peers[id]; }});
 </script>
 
 </body>
 </html>
-
-
-
