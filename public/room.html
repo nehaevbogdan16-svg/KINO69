@@ -48,7 +48,7 @@
    ОСНОВНОЙ КОД
    ===================================================== */
 const socket = io();
-const room = new URLSearchParams(location.search).get("room");
+const room = location.pathname.split("/").pop();
 
 const btn = document.getElementById("setBtn");
 const input = document.getElementById("videoUrl");
@@ -185,4 +185,5 @@ socket.on("voice-leave", id => {
 
 </body>
 </html>
+
 
