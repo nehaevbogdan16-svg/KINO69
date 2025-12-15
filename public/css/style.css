@@ -76,3 +76,14 @@ button:hover {
 .chat button {
   border-radius: 0;
 }
+
+.voice-controls {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.voice-controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
