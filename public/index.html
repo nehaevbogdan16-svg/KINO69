@@ -20,10 +20,15 @@
     <p class="subtitle">YouTube • VK • Rutube • Vimeo • Dailymotion</p>
 
     <input id="roomInput" placeholder="Название комнаты">
-    <button onclick="joinRoom()">Создать / Войти</button>
+
+    <div class="buttons">
+        <button onclick="joinRoom()">Создать / Войти</button>
+        <button class="secondary" onclick="randomRoom()">🎲 Случайная комната</button>
+    </div>
 </div>
 
 <script>
+/* ===== ВХОД ПО ИМЕНИ ===== */
 function joinRoom() {
     const room = document.getElementById("roomInput").value.trim();
     if (!room) {
@@ -31,6 +36,12 @@ function joinRoom() {
         return;
     }
     location.href = `/room.html?room=${encodeURIComponent(room)}`;
+}
+
+/* ===== 🎲 СЛУЧАЙНАЯ КОМНАТА ===== */
+function randomRoom() {
+    const room = Math.random().toString(36).substring(2, 8);
+    location.href = `/room.html?room=${room}`;
 }
 </script>
 
