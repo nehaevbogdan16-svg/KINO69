@@ -244,4 +244,33 @@ body {
   }
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 60px);
+  gap: 10px;
+  flex-wrap: wrap; /* добавляем перенос на маленьких экранах */
+}
 
+.player {
+  flex: 3 1 300px; /* 3 части, минимальная ширина 300px */
+}
+
+.chat {
+  flex: 1 1 200px; /* 1 часть, минимальная ширина 200px */
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* на телефоне чат под плеером */
+    height: auto;
+  }
+  .player {
+    height: 300px;
+  }
+}
+
+.top input, .top button, .chat input, .chat button {
+  width: 100%;
+  box-sizing: border-box;
+}
