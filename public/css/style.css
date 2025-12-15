@@ -1,9 +1,10 @@
 /* ===== ОБЩИЕ СТИЛИ ===== */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #121212;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: #0a0a0a;
   color: #fff;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ===== ВЕРХНЯЯ ПАНЕЛЬ ===== */
@@ -14,17 +15,17 @@ body {
   gap: 10px;
   align-items: center;
   justify-content: space-between;
-  background: #1f1f1f;
-  border-bottom: 1px solid #2a2a2a;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  background: rgba(28,28,30,0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .top input {
   flex: 1;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px;
+  border-radius: 14px;
   border: none;
-  background: #2a2a2a;
+  background: rgba(255,255,255,0.05);
   color: #fff;
 }
 
@@ -33,19 +34,21 @@ body {
 }
 
 button {
-  padding: 10px 18px;
-  background: #ff3c3c;
+  padding: 12px 20px;
+  background: rgba(255,60,60,0.9);
   border: none;
   color: white;
-  border-radius: 10px;
+  border-radius: 14px;
   cursor: pointer;
-  transition: 0.3s;
-  font-weight: bold;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 button:hover {
-  background: #ff5c5c;
-  box-shadow: 0 0 10px #ff5c5c;
+  background: rgba(255,60,60,1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,60,60,0.4);
 }
 
 /* ===== ЦЕНТРАЛЬНЫЙ БЛОК ===== */
@@ -61,17 +64,17 @@ button:hover {
 
 .center input {
   width: 100%;
-  max-width: 300px;
-  padding: 12px;
+  max-width: 320px;
+  padding: 14px;
   margin: 10px 0;
-  border-radius: 10px;
+  border-radius: 14px;
   border: none;
-  background: #2a2a2a;
+  background: rgba(255,255,255,0.05);
   color: #fff;
 }
 
-.center button {
-  margin-top: 10px;
+.center input::placeholder {
+  color: #aaa;
 }
 
 /* ===== КОНТЕЙНЕР ВИДЕО + ЧАТ ===== */
@@ -85,18 +88,19 @@ button:hover {
 .player {
   flex: 3;
   min-width: 300px;
-  border-radius: 14px;
+  border-radius: 20px;
   overflow: hidden;
   background: #000;
   height: 450px;
   position: relative;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
 .player iframe {
   width: 100%;
   height: 100%;
   border: none;
+  border-radius: 20px;
 }
 
 /* ===== ЧАТ ===== */
@@ -105,10 +109,10 @@ button:hover {
   min-width: 280px;
   display: flex;
   flex-direction: column;
-  background: #1f1f1f;
-  border-radius: 14px;
+  background: rgba(28,28,30,0.85);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
 }
 
 #messages {
@@ -117,59 +121,62 @@ button:hover {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
-/* Пузырьки сообщений */
+/* ===== Пузырьки сообщений ===== */
 #messages div {
-  padding: 10px 14px;
-  background: #2a2a2a;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.05);
   border-radius: 20px;
   max-width: 80%;
   word-wrap: break-word;
   animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  backdrop-filter: blur(5px);
 }
 
 /* ===== ЧАТ + МИКРОФОН ===== */
 .chat-controls {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   padding: 8px;
-  background: #2a2a2a;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(10px);
 }
 
 .chat-controls input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border-radius: 14px;
   border: none;
-  background: #1f1f1f;
+  background: rgba(255,255,255,0.05);
   color: #fff;
 }
 
 .chat-controls button {
   border-radius: 14px;
-  padding: 10px 14px;
+  padding: 10px 16px;
   font-size: 16px;
-  font-weight: bold;
-  transition: 0.2s;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 #micBtn.active {
-  background: #4caf50;
-  box-shadow: 0 0 12px #4caf50;
+  background: #32d74b;
+  box-shadow: 0 0 12px #32d74b;
   animation: pulse 1.2s infinite;
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 #4caf50; }
-  50% { box-shadow: 0 0 20px #4caf50; }
-  100% { box-shadow: 0 0 0 #4caf50; }
+  0% { box-shadow: 0 0 0 #32d74b; }
+  50% { box-shadow: 0 0 18px #32d74b; }
+  100% { box-shadow: 0 0 0 #32d74b; }
+}
+
+/* ===== АНИМАЦИЯ ПУЗЫРЬКОВ ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== АДАПТИВ ===== */
