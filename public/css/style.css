@@ -159,4 +159,89 @@ body {
   font-size: 14px;
 }
 
+/* ================================
+   📱 МОБИЛЬНАЯ АДАПТАЦИЯ
+   ================================ */
+@media (max-width: 768px) {
+
+  body {
+    overflow: hidden;
+  }
+
+  .top {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container {
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* 🎬 ВИДЕО */
+  .player {
+    flex: none;
+    height: 40vh;
+  }
+
+  .player iframe {
+    height: 100%;
+    border-radius: 0;
+  }
+
+  /* 💬 ЧАТ */
+  .chat {
+    flex: 1;
+    height: 60vh;
+  }
+
+  #messages {
+    font-size: 14px;
+  }
+
+  /* ✍️ ПОЛЕ ВВОДА + КНОПКИ */
+  .chat-controls {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .chat-controls input {
+    flex: 1;
+    font-size: 16px;
+  }
+
+  .chat-controls button {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  /* 🎤 МИКРОФОН */
+  #micBtn {
+    min-width: 44px;
+  }
+
+  /* 🏠 INDEX */
+  .center {
+    padding: 20px;
+  }
+
+  .center input {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .buttons button {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
 
