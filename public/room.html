@@ -23,15 +23,15 @@
         </iframe>
     </div>
 
-    <!-- 🎤 ГОЛОСОВОЙ ЧАТ -->
-    <div class="voice-controls">
-        <button id="micBtn">🎤 Включить микрофон</button>
-    </div>
-
     <div class="chat">
         <div id="messages"></div>
-        <input id="msg" placeholder="Сообщение">
-        <button onclick="sendChat()">Отправить</button>
+
+        <!-- ✅ КНОПКИ ЧАТА + МИКРОФОН -->
+        <div class="chat-controls">
+            <input id="msg" placeholder="Сообщение">
+            <button onclick="sendChat()">Отправить</button>
+            <button id="micBtn" title="Микрофон">🎤</button>
+        </div>
     </div>
 </div>
 
@@ -82,6 +82,7 @@ socket.on("set-video", data => {
 function sendChat() {
     const msg = document.getElementById("msg").value;
     socket.emit("chat", { room, msg });
+    document.getElementById("msg").value = "";
 }
 
 socket.on("chat", data => {
@@ -107,12 +108,14 @@ micBtn.onclick = async () => {
     if (!micEnabled) {
         localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         socket.emit("voice-join", room);
-        micBtn.textContent = "🔇 Выключить микрофон";
+        micBtn.textContent = "🔇";
+        micBtn.classList.add("active");
         micEnabled = true;
     } else {
         localStream.getTracks().forEach(t => t.stop());
         socket.emit("voice-leave", room);
-        micBtn.textContent = "🎤 Включить микрофон";
+        micBtn.textContent = "🎤";
+        micBtn.classList.remove("active");
         micEnabled = false;
     }
 };
