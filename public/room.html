@@ -7,26 +7,101 @@
 </head>
 <body>
 
-    <div class="top">
-        <input id="videoUrl" placeholder="Вставьте ссылку (YouTube / RuTube / сайт)">
-        <button id="setBtn">Загрузить</button>
+<div class="top">
+    <input id="videoUrl" placeholder="YouTube / VK / Rutube / Vimeo / Dailymotion">
+    <button id="setBtn">Загрузить</button>
+</div>
+
+<div class="container">
+    <div class="player">
+
+        <!-- 🎬 ЕДИНЫЙ ПЛЕЕР -->
+        <iframe
+            id="player"
+            width="100%"
+            height="450"
+            frameborder="0"
+            allowfullscreen>
+        </iframe>
+
     </div>
 
-    <div class="container">
-        <div class="player">
-            <div id="player"></div>
-
-        </div>
-
-        <div class="chat">
-            <div id="messages"></div>
-            <input id="msg" placeholder="Сообщение">
-            <button onclick="sendChat()">Отправить</button>
-        </div>
+    <div class="chat">
+        <div id="messages"></div>
+        <input id="msg" placeholder="Сообщение">
+        <button onclick="sendChat()">Отправить</button>
     </div>
+</div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="/js/room.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+const room = new URLSearchParams(location.search).get("room");
+const btn = document.getElementById("setBtn");
+const input = document.getElementById("videoUrl");
+const iframe = document.getElementById("player");
+
+socket.emit("join-room", room);
+
+btn.onclick = () => {
+    const link = input.value.trim();
+    let m, src = null;
+
+    // ▶ VK Video
+    m = link.match(/video(-?\d+)_(\d+)/);
+    if (m) {
+        src = `https://vk.com/video_ext.php?oid=${m[1]}&id=${m[2]}`;
+    }
+
+    // ▶ YouTube
+    m = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+    if (m) {
+        src = `https://www.youtube.com/embed/${m[1]}`;
+    }
+
+    // ▶ Rutube
+    m = link.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
+    if (m) {
+        src = `https://rutube.ru/play/embed/${m[1]}`;
+    }
+
+    // ▶ Vimeo
+    m = link.match(/vimeo\.com\/(\d+)/);
+    if (m) {
+        src = `https://player.vimeo.com/video/${m[1]}`;
+    }
+
+    // ▶ Dailymotion
+    m = link.match(/dailymotion\.com\/video\/([a-zA-Z0-9]+)/);
+    if (m) {
+        src = `https://www.dailymotion.com/embed/video/${m[1]}`;
+    }
+
+    if (!src) {
+        alert("❌ Ссылка не поддерживается");
+        return;
+    }
+
+    socket.emit("set-video", { room, src });
+};
+
+socket.on("set-video", data => {
+    iframe.src = data.src;
+});
+
+/* ===== ЧАТ (пример) ===== */
+function sendChat() {
+    const msg = document.getElementById("msg").value;
+    socket.emit("chat", { room, msg });
+}
+
+socket.on("chat", data => {
+    const div = document.createElement("div");
+    div.textContent = data.msg;
+    document.getElementById("messages").appendChild(div);
+});
+</script>
+
 </body>
 </html>
