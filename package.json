@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "body-parser": "^2.2.1",
-    "express": "^5.2.1",
-    "express-session": "^1.18.2",
-    "npm": "^11.7.0",
-    "start": "^5.1.0"
-  }
-}
