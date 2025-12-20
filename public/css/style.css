@@ -1,0 +1,4 @@
+body{background:#111;color:#fff;font-family:Arial}header{text-align:center}
+.movies{display:grid;grid-template-columns:repeat(auto-fill,180px);gap:20px}
+.movie{background:#222;padding:10px;border-radius:10px;text-align:center}
+.movie img{width:100%}
