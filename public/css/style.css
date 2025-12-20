@@ -1,8 +1,0 @@
-
-body { background:#111; color:#fff; font-family:Arial; margin:0 }
-header { text-align:center; padding:20px }
-input, textarea, button { display:block; margin:10px auto; padding:10px; width:300px }
-.movies { display:grid; grid-template-columns:repeat(auto-fill,180px); gap:20px; padding:20px }
-.movie { background:#222; padding:10px; border-radius:10px; text-align:center }
-.movie img { width:100%; border-radius:6px }
-a { color:red; text-decoration:none }
