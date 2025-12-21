@@ -1,77 +1,66 @@
+/* НЕ ТРОГАЕТ iframe */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
+  background: #0e0e0e;
   color: #fff;
+  font-family: Arial, sans-serif;
 }
 
-header {
+.header {
   text-align: center;
+  padding: 30px 15px;
+}
+
+.logo {
+  color: #e50914;
+  font-size: 36px;
+  margin: 0;
+}
+
+.tagline {
+  color: #aaa;
+  margin-top: 5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
   padding: 20px;
-  background: #1a1a1a;
 }
 
-.desc {
-  opacity: 0.8;
+.card {
+  background: #1c1c1c;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-.movies {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
-}
-
-.movie {
-  background: #1a1a1a;
-  margin: 15px;
-  padding: 15px;
-  width: 260px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.movie img {
+.card img {
   width: 100%;
-  border-radius: 8px;
-}
-
-.watch {
   display: block;
-  width: 100%;
-  margin-top: 10px;
+}
+
+.card-body {
   padding: 10px;
-  background: red;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
 }
 
-.watch:hover {
-  background: darkred;
+.card h3 {
+  margin: 0;
+  font-size: 16px;
 }
 
-.player {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+.card p {
+  font-size: 13px;
+  color: #aaa;
+  margin: 5px 0 10px;
 }
 
-iframe {
-  width: 90%;
-  max-width: 900px;
-  height: 500px;
-  border-radius: 10px;
-}
-
-.back {
-  color: red;
-  text-decoration: none;
-}
-
-footer {
+.card a {
+  display: block;
   text-align: center;
-  padding: 10px;
-  opacity: 0.6;
+  padding: 8px;
+  background: #e50914;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
 }
