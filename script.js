@@ -11,11 +11,14 @@ fetch("movies.json")
         <img src="${movie.poster}">
         <h2>${movie.title}</h2>
         <p>${movie.description}</p>
-        <a class="watch"
-           href="watch.html?title=${encodeURIComponent(movie.title)}&video=${encodeURIComponent(movie.video)}">
-           Смотреть
-        </a>
+        <button class="watch">Смотреть</button>
       `;
+
+      card.querySelector(".watch").onclick = () => {
+        sessionStorage.setItem("title", movie.title);
+        sessionStorage.setItem("iframe", movie.iframe);
+        location.href = "watch.html";
+      };
 
       container.appendChild(card);
     });
