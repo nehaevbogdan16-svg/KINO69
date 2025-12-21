@@ -9,6 +9,6 @@
     "title": "Фильм YouTube",
     "description": "Пример YouTube плеера",
     "poster": "https://via.placeholder.com/300x450",
-    "iframe": "<iframe src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" width=\"100%\" height=\"500\" frameborder=\"0\" allowfullscreen></iframe>"
+    "iframe": "<iframe src=\"https://youtu.be/85-45X3KlSQ?si=gT43cSwrXJj7I569" width=\"100%\" height=\"500\" frameborder=\"0\" allowfullscreen></iframe>"
   }
 ]
