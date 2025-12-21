@@ -1,0 +1,16 @@
+[
+  {
+    "id": "movie1",
+    "title": "Фильм 1",
+    "description": "Описание первого фильма",
+    "poster": "https://via.placeholder.com/300x450",
+    "video": "https://vk.com/video_ext.php?oid=1&id=1&hash=example"
+  },
+  {
+    "id": "movie2",
+    "title": "Фильм 2",
+    "description": "Описание второго фильма",
+    "poster": "https://via.placeholder.com/300x450",
+    "video": "https://example-cdn.com/movie.mp4"
+  }
+]
