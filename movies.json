@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Фильм VK",
+    "description": "Пример фильма из VK",
+    "poster": "https://via.placeholder.com/300x450",
+    "iframe": "<iframe src=\"https://vk.com/video_ext.php?oid=-16775977&id=456240410&hash=abcdef\" width=\"100%\" height=\"500\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen></iframe>"
+  },
+  {
+    "title": "Зверополис 2",
+    "description": "Зверополис 2025",
+    "poster": "https://www.dvhab.ru/kino/kino/images/big_10244293.jpg",
+    "iframe": "<iframe src=\"https://rutube.ru/play/embed/ac5d12410203f8fe3b529b2bbaffa6fa/?skinColor=000000\" width=\"100%\" height=\"100%\" frameborder=\"0\" allowfullscreen></iframe>"
+  },
+  {
+    "title": "Фильм YouTube",
+    "description": "Пример YouTube плеера",
+    "poster": "https://via.placeholder.com/300x450",
+    "iframe": "<iframe src=\"https://www.youtube.com/embed/85-45X3KlSQ?si=vk7u_q-V3eBUS5Ej\" width=\"100%\" height=\"100%\" frameborder=\"0\" allowfullscreen></iframe>"
+  },
+  {
+    "title": "Последнее королевство: Семь королей должны умереть ",
+    "description": "Год производства: 2023 Жанр: боевик",
+    "poster": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ64JkmUfdGCBr1Jh00cuQUTRAIU7wQ4Iw7gzHiswjBNrm7TDuT",
+    "iframe": "<iframe src=\"https://rutube.ru/play/embed/9dda72b1d686844ea781047ccbc57551/\" width=\"100%\" height=\"100%\" frameborder=\"0\" allowfullscreen></iframe>"
+  }
+]
