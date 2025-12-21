@@ -14,22 +14,13 @@
 </header>
 
 <main class="player">
-  <iframe
-    id="player"
-    src=""
-    frameborder="0"
-    allowfullscreen
-    allow="autoplay; encrypted-media">
-  </iframe>
+  <iframe id="player" src="" frameborder="0" allowfullscreen></iframe>
 </main>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const title = params.get("title");
-  const video = params.get("video");
-
-  if (title) document.getElementById("title").textContent = title;
-  if (video) document.getElementById("player").src = video;
+  const p = new URLSearchParams(location.search);
+  document.getElementById("title").textContent = p.get("title");
+  document.getElementById("player").src = p.get("video");
 </script>
 
 </body>
