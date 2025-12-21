@@ -6,9 +6,9 @@
     "iframe": "<iframe src=\"https://vk.com/video_ext.php?oid=-16775977&id=456240410&hash=abcdef\" width=\"100%\" height=\"500\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen></iframe>"
   },
   {
-    "title": "ВЫЖИВАНИЯ НА ОСТРОВЕ",
-    "description": "100 ДНЕЙ ВЫЖИВАНИЯ НА ОСТРОВЕ В РЕАЛИСТИЧНОМ МАЙНКРАФТЕ",
+    "title": "Фильм YouTube",
+    "description": "Пример YouTube плеера",
     "poster": "https://via.placeholder.com/300x450",
-    "iframe": "<iframe src="https://www.youtube.com/embed/85-45X3KlSQ?si=6a23HO1zBkPzTXl-" width=\"100%\" height=\"500\" frameborder=\"0\" allowfullscreen></iframe>"
+    "iframe": "<iframe src="https://www.youtube.com/embed/85-45X3KlSQ?si=OcJyFiTvvlwtFi82" width=\"100%\" height=\"500\" frameborder=\"0\" allowfullscreen></iframe>"
   }
 ]
