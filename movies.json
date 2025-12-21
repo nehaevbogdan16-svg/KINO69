@@ -10,5 +10,11 @@
     "description": "Пример YouTube плеера",
     "poster": "https://via.placeholder.com/300x450",
     "iframe": "<iframe src=\"https://www.youtube.com/embed/85-45X3KlSQ?si=vk7u_q-V3eBUS5Ej\" width=\"100%\" height=\"100%\" frameborder=\"0\" allowfullscreen></iframe>"
+  },
+  {
+    "title": "Фильм YouTube",
+    "description": "Пример YouTube плеера",
+    "poster": "https://via.placeholder.com/300x450",
+    "iframe": "<iframe src=\"https://www.youtube.com/embed/85-45X3KlSQ?si=vk7u_q-V3eBUS5Ej\" width=\"100%\" height=\"100%\" frameborder=\"0\" allowfullscreen></iframe>"
   }
 ]
