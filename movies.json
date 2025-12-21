@@ -16,5 +16,13 @@
     "description": "Пример YouTube плеера",
     "poster": "https://via.placeholder.com/300x450",
     "iframe": "<iframe src=\"https://www.youtube.com/embed/85-45X3KlSQ?si=vk7u_q-V3eBUS5Ej\" width=\"100%\" height=\"100%\" frameborder=\"0\" allowfullscreen></iframe>"
+  },
+  {
+    "title": "Последнее королевство: Семь королей должны умереть ",
+    "description": "Год производства: 2023
+Страна: Великобритания
+Жанр: боевик, драма, история",
+    "poster": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ64JkmUfdGCBr1Jh00cuQUTRAIU7wQ4Iw7gzHiswjBNrm7TDuT",
+    "iframe": "<iframe src="https://rutube.ru/play/embed/9dda72b1d686844ea781047ccbc57551/\" width=\"100%\" height=\"100%\" frameborder=\"0\" allowfullscreen></iframe>"
   }
 ]
