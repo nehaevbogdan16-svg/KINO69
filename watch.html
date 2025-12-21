@@ -14,13 +14,19 @@
 </header>
 
 <main class="player">
-  <iframe id="player" src="" frameborder="0" allowfullscreen></iframe>
+  <div id="player"></div>
 </main>
 
 <script>
-  const p = new URLSearchParams(location.search);
-  document.getElementById("title").textContent = p.get("title");
-  document.getElementById("player").src = p.get("video");
+  const title = sessionStorage.getItem("title");
+  const iframe = sessionStorage.getItem("iframe");
+
+  if (!iframe) {
+    document.getElementById("player").innerHTML = "Видео не найдено";
+  } else {
+    document.getElementById("title").textContent = title;
+    document.getElementById("player").innerHTML = iframe;
+  }
 </script>
 
 </body>
