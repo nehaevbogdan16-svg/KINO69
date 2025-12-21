@@ -1,16 +1,14 @@
 [
   {
-    "id": "movie1",
-    "title": "Фильм",
-    "description": "Описание первого фильма",
-    "poster": "https://i.ytimg.com/vi/4cMMzrg_FZw/hq2.jpg?sqp=-oaymwEoCOADEOgC8quKqQMcGADwAQH4Ac4FgALQBYoCDAgAEAEYXiBlKEwwDw==&amp;rs=AOn4CLC1T0gxQ_Akc3D32MXnwnjz58wJ8A",
-    "video": "hhttps://rutube.ru/video/3940341165f67defae707025c99d8cd7/?r=wd"
+    "title": "Фильм VK",
+    "description": "Пример фильма из VK",
+    "poster": "https://via.placeholder.com/300x450",
+    "iframe": "<iframe src=\"https://vk.com/video_ext.php?oid=-16775977&id=456240410&hash=abcdef\" width=\"100%\" height=\"500\" frameborder=\"0\" allow=\"autoplay; fullscreen\" allowfullscreen></iframe>"
   },
   {
-    "id": "movie2",
-    "title": "Фильм 2",
-    "description": "Описание второго фильма",
+    "title": "Фильм YouTube",
+    "description": "Пример YouTube плеера",
     "poster": "https://via.placeholder.com/300x450",
-    "video": "https://youtu.be/fhGjpT4cJCI"
+    "iframe": "<iframe src=\"https://www.youtube.com/embed/dQw4w9WgXcQ\" width=\"100%\" height=\"500\" frameborder=\"0\" allowfullscreen></iframe>"
   }
 ]
