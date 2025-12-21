@@ -102,13 +102,16 @@ body {
 
 .player {
   width: 100%;
-  min-height: 60vh;
+  min-height: 70vh;
+  display: block;
 }
 
 .player iframe {
   width: 100% !important;
-  height: 60vh !important;
+  height: 70vh !important;
+  min-height: 400px;
   border: none;
+  display: block;
 }
 
 /* MOBILE */
