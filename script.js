@@ -1,21 +1,25 @@
 fetch("movies.json")
-  .then(r => r.json())
+  .then(res => res.json())
   .then(movies => {
-    const box = document.getElementById("movies");
+    const container = document.getElementById("movies");
 
-    movies.forEach(m => {
+    movies.forEach(movie => {
       const card = document.createElement("div");
-      card.className = "card";
+      card.className = "movie";
 
       card.innerHTML = `
-        <img src="${m.poster}">
-        <div class="card-body">
-          <h3>${m.title}</h3>
-          <p>${m.description}</p>
-          <a href="watch.html?id=${m.id}">Смотреть</a>
-        </div>
+        <img src="${movie.poster}">
+        <h2>${movie.title}</h2>
+        <p>${movie.description}</p>
+        <button class="watch">Смотреть</button>
       `;
 
-      box.appendChild(card);
+      card.querySelector(".watch").onclick = () => {
+        sessionStorage.setItem("title", movie.title);
+        sessionStorage.setItem("iframe", movie.iframe);
+        location.href = "watch.html";
+      };
+
+      container.appendChild(card);
     });
   });
