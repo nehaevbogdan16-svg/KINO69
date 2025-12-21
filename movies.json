@@ -9,6 +9,6 @@
     "title": "ВЫЖИВАНИЯ НА ОСТРОВЕ",
     "description": "100 ДНЕЙ ВЫЖИВАНИЯ НА ОСТРОВЕ В РЕАЛИСТИЧНОМ МАЙНКРАФТЕ",
     "poster": "https://via.placeholder.com/300x450",
-    "iframe": "<iframe width="560" height="315" src="https://www.youtube.com/embed/85-45X3KlSQ?si=6a23HO1zBkPzTXl-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"
+    "iframe": "<iframe src="https://www.youtube.com/embed/85-45X3KlSQ?si=6a23HO1zBkPzTXl-" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"
   }
 ]
