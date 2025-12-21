@@ -3,29 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Просмотр</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<header class="header small">
-  <a href="index.html" class="back">← Назад</a>
-  <h1 id="title"></h1>
-</header>
+<a href="index.html">← Назад</a>
+<h1 id="title"></h1>
 
-<main class="player-page">
-  <div id="player" class="player"></div>
-  <div style="color:red">ЕСЛИ ВИДИШЬ ЭТОТ ТЕКСТ — iframe просто не видно</div>
-</main>
+<div id="player"></div>
 
 <script>
 const id = new URLSearchParams(location.search).get("id");
-fetch("movies.json").then(r=>r.json()).then(movies=>{
-  const m = movies.find(x=>x.id===id);
-  if(!m) return;
-  document.getElementById("title").textContent = m.title;
-  document.getElementById("player").innerHTML = m.iframe;
-});
+
+fetch("movies.json")
+  .then(r => r.json())
+  .then(movies => {
+    const movie = movies.find(m => m.id === id);
+    if (!movie) return;
+
+    document.getElementById("title").textContent = movie.title;
+    document.getElementById("player").innerHTML = movie.iframe;
+  });
 </script>
 
 </body>
