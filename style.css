@@ -109,6 +109,16 @@ body {
   border: none;
   border-radius: 10px;
 }
+.player {
+  width: 100%;
+  min-height: 60vh;
+}
+
+.player iframe {
+  width: 100% !important;
+  height: 60vh !important;
+  border: none;
+}
 
 /* MOBILE */
 @media (max-width: 600px) {
