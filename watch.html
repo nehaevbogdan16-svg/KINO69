@@ -2,31 +2,29 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Просмотр — КИНО69</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Просмотр</title>
   <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<header>
+<header class="header small">
   <a href="index.html" class="back">← Назад</a>
-  <h1 id="title">Загрузка…</h1>
+  <h1 id="title"></h1>
 </header>
 
-<main class="player">
-  <div id="player"></div>
+<main class="player-page">
+  <div id="player" class="player"></div>
 </main>
 
 <script>
-  const title = sessionStorage.getItem("title");
-  const iframe = sessionStorage.getItem("iframe");
-
-  if (!iframe) {
-    document.getElementById("player").innerHTML = "Видео не найдено";
-  } else {
-    document.getElementById("title").textContent = title;
-    document.getElementById("player").innerHTML = iframe;
-  }
+const id = new URLSearchParams(location.search).get("id");
+fetch("movies.json").then(r=>r.json()).then(movies=>{
+  const m = movies.find(x=>x.id===id);
+  if(!m) return;
+  document.getElementById("title").textContent = m.title;
+  document.getElementById("player").innerHTML = m.iframe;
+});
 </script>
 
 </body>
