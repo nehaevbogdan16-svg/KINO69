@@ -249,3 +249,58 @@ footer {
     0 0 10px rgba(255,80,80,0.8),
     0 0 20px rgba(255,80,80,0.6);
 }
+/* ===== КВАДРАТНЫЙ ЛОГОТИП КИНО69 ===== */
+
+.logo-square {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 10px;
+  background: linear-gradient(135deg, #b71c1c, #ff5252);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 20px rgba(255,80,80,0.6),
+    inset 0 0 10px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+/* ❄️ снег сверху */
+.logo-square::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 8px;
+  right: 8px;
+  height: 14px;
+  background: white;
+  border-radius: 0 0 10px 10px;
+  opacity: 0.9;
+}
+
+/* 🎬 внутренний текст */
+.logo-inner {
+  text-align: center;
+  font-weight: bold;
+  user-select: none;
+}
+
+.logo-title {
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.6);
+}
+
+.logo-num {
+  font-size: 32px;
+  margin-top: -4px;
+  color: #111;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0 8px;
+  display: inline-block;
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
