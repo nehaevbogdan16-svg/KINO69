@@ -133,3 +133,40 @@ footer {
   opacity: 0.7;
   color: #cfd8dc;
 }
+/* 🎄 ЛОГО КИНО69 */
+.logo {
+  font-size: 44px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  user-select: none;
+}
+
+.logo .kino {
+  color: #ffffff;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 20px rgba(255,255,255,0.3);
+  position: relative;
+}
+
+/* ❄️ СНЕГ НА БУКВАХ */
+.logo .kino::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px;
+  height: 10px;
+  background: white;
+  border-radius: 0 0 8px 8px;
+  opacity: 0.9;
+}
+
+.logo .num {
+  color: #ff5252;
+  margin-left: 6px;
+  text-shadow:
+    0 0 10px rgba(255,80,80,0.8),
+    0 0 20px rgba(255,80,80,0.6);
+}
