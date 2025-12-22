@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Админ — КИНО69</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background:#111;
+      color:#fff;
+      font-family:Arial;
+      padding:20px;
+    }
+    input, textarea, button {
+      width:100%;
+      margin-bottom:10px;
+      padding:10px;
+    }
+    button {
+      background:red;
+      color:white;
+      border:none;
+      cursor:pointer;
+    }
+    pre {
+      background:#1a1a1a;
+      padding:10px;
+      white-space:pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Админ — добавление фильма</h1>
+
+<input id="title" placeholder="Название">
+<textarea id="description" placeholder="Описание"></textarea>
+<input id="poster" placeholder="Ссылка на постер">
+<textarea id="iframe" placeholder="iframe код"></textarea>
+
+<button onclick="addMovie()">Сформировать JSON</button>
+
+<h3>Готово (скопируй и вставь в movies.json):</h3>
+<pre id="output"></pre>
+
+<script>
+function addMovie() {
+  const movie = {
+    title: title.value,
+    description: description.value,
+    poster: poster.value,
+    iframe: iframe.value
+  };
+  output.textContent = JSON.stringify(movie, null, 2);
+}
+</script>
+
+</body>
+</html>
