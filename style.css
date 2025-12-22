@@ -304,3 +304,52 @@ footer {
   display: inline-block;
   box-shadow: 0 0 10px rgba(255,255,255,0.6);
 }
+/* ===== СОЦСЕТИ ===== */
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 15px;
+}
+
+.social {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+}
+
+.social:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Telegram */
+.social.tg {
+  background: linear-gradient(135deg, #0088cc, #32b7f3);
+  box-shadow: 0 0 15px rgba(50,183,243,0.6);
+}
+
+/* VK */
+.social.vk {
+  background: linear-gradient(135deg, #4c75a3, #5fa2dd);
+  box-shadow: 0 0 15px rgba(95,162,221,0.6);
+}
+
+/* RuTube */
+.social.rt {
+  background: linear-gradient(135deg, #ff0000, #ff5252);
+  box-shadow: 0 0 15px rgba(255,82,82,0.6);
+}
+
+.social span {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
