@@ -170,3 +170,82 @@ footer {
     0 0 10px rgba(255,80,80,0.8),
     0 0 20px rgba(255,80,80,0.6);
 }
+/* ===== ЛОГОТИП ===== */
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+/* 🎬 ИКОНКА КИНО */
+.logo-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #c62828, #ff5252);
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255,80,80,0.6);
+}
+
+/* 🎞 отверстия плёнки */
+.logo-icon span {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #111;
+  border-radius: 2px;
+}
+
+.logo-icon span:nth-child(1) {
+  top: 8px;
+  left: 8px;
+}
+
+.logo-icon span:nth-child(2) {
+  top: 8px;
+  right: 8px;
+}
+
+.logo-icon span:nth-child(3) {
+  bottom: 8px;
+  left: 8px;
+}
+
+/* ❄️ СНЕГ НА ИКОНКЕ */
+.logo-icon::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 6px;
+  right: 6px;
+  height: 12px;
+  background: white;
+  border-radius: 0 0 10px 10px;
+  opacity: 0.9;
+}
+
+/* 📝 ТЕКСТ ЛОГО */
+.logo-text {
+  font-size: 44px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  user-select: none;
+}
+
+.logo-text .kino {
+  color: #ffffff;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 20px rgba(255,255,255,0.3);
+}
+
+.logo-text .num {
+  color: #ff5252;
+  margin-left: 6px;
+  text-shadow:
+    0 0 10px rgba(255,80,80,0.8),
+    0 0 20px rgba(255,80,80,0.6);
+}
