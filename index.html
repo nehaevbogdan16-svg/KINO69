@@ -3,77 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Такси Калач-на-Дону</title>
+<title>GoTaxi - Альтернатива ЯндексGO</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-    body { background:#f5f5f5; color:#333; }
-    header { background:#ffcc00; padding:15px 20px; text-align:center; font-size:24px; font-weight:bold; color:#000; }
-    main { padding:20px; max-width:700px; margin:auto; }
-    h2 { text-align:center; margin-bottom:20px; }
-    form { background:#fff; padding:20px; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+    body { margin:0; font-family: Arial, sans-serif; }
+    header { background:#ffcc00; padding:15px; text-align:center; font-size:24px; font-weight:bold; }
+    main { display:flex; flex-direction: column; align-items:center; padding:20px; }
+    form { background:#fff; padding:20px; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); width:100%; max-width:500px; margin-bottom:20px; }
     label { display:block; margin-bottom:5px; font-weight:bold; }
     select, input, button { width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; font-size:16px; }
     button { background:#ffcc00; border:none; cursor:pointer; font-weight:bold; }
     button:hover { background:#e6b800; }
-    .map { margin-top:20px; height:400px; border-radius:8px; overflow:hidden; }
-    footer { text-align:center; margin:30px 0; color:#777; }
-    @media(max-width:600px){ body{ padding:0 10px; } }
+    #map { width:100%; height:400px; border-radius:8px; }
 </style>
 </head>
 <body>
 
-<header>Такси Калач-на-Дону</header>
+<header>GoTaxi - Альтернатива ЯндексGO</header>
 
 <main>
-<h2>Закажите такси по Калачёвскому району</h2>
-
 <form id="taxiForm">
     <label for="pickup">Адрес подачи:</label>
-    <select id="pickup" name="pickup" required>
-        <option value="">Выберите населённый пункт</option>
-        <option value="Калач">Калач</option>
-        <option value="Нижне-Водянка">Нижне-Водянка</option>
-        <option value="Панфиловка">Панфиловка</option>
-        <option value="Красный Яр">Красный Яр</option>
-    </select>
+    <input type="text" id="pickup" placeholder="Например: ул. Ленина, Калач">
 
     <label for="dropoff">Адрес назначения:</label>
-    <select id="dropoff" name="dropoff" required>
-        <option value="">Выберите населённый пункт</option>
-        <option value="Калач">Калач</option>
-        <option value="Нижне-Водянка">Нижне-Водянка</option>
-        <option value="Панфиловка">Панфиловка</option>
-        <option value="Красный Яр">Красный Яр</option>
-    </select>
+    <input type="text" id="dropoff" placeholder="Например: ул. Советская, Калач">
 
     <label for="carType">Тип машины:</label>
-    <select id="carType" name="carType">
+    <select id="carType">
         <option value="econom">Эконом</option>
         <option value="business">Бизнес</option>
         <option value="minivan">Минивэн</option>
     </select>
 
-    <label for="time">Время подачи:</label>
-    <input type="datetime-local" id="time" name="time" required>
-
     <button type="submit">Заказать такси</button>
 </form>
 
-<div class="map">
-<!-- Вставка карты Яндекс с центром на Калач-на-Дону -->
-<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aa58c7f2d0b93060b5ee0b97d8c9bdbb6f452a4f9e3f798b1f0e1b4dbfbd0a9c4&amp;source=constructor" width="100%" height="100%" frameborder="0"></iframe>
-</div>
-
+<div id="map"></div>
 </main>
 
-<footer>
-© 2026 Такси Калач-на-Дону | Телефон: +7 (900) 000-00-00
-</footer>
-
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-const form = document.getElementById('taxiForm');
+// Инициализация карты (центрируем на Калач-на-Дону)
+const map = L.map('map').setView([50.3, 43.5], 13); // координаты Калач-на-Дону
 
-form.addEventListener('submit', function(e){
+// Подключение OpenStreetMap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Маркеры для примера
+let pickupMarker, dropoffMarker;
+
+document.getElementById('taxiForm').addEventListener('submit', function(e){
     e.preventDefault();
 
     const pickup = document.getElementById('pickup').value;
@@ -81,21 +63,23 @@ form.addEventListener('submit', function(e){
     const carType = document.getElementById('carType').value;
 
     if(!pickup || !dropoff){
-        alert('Пожалуйста, выберите населённые пункты.');
+        alert('Пожалуйста, введите оба адреса.');
         return;
     }
 
-    // Расчет стоимости
-    let cost = 0;
-    if(pickup === dropoff) cost = 150; // внутри одного населённого пункта
-    else cost = 300; // между населенными пунктами
-
-    // Доплата за тип машины
+    // Простейший расчет стоимости (можно усложнить с реальными расстояниями)
+    let cost = 200; // базовая цена
     if(carType==='business') cost += 100;
     if(carType==='minivan') cost += 50;
 
-    alert(`Заказ принят!\nМаршрут: ${pickup} → ${dropoff}\nТип машины: ${carType}\nСтоимость: ${cost}₽\nНаш водитель свяжется с вами.`);
-    form.reset();
+    alert(`Заказ принят!\nМаршрут: ${pickup} → ${dropoff}\nТип машины: ${carType}\nПримерная стоимость: ${cost}₽`);
+
+    // Добавляем маркеры на карту (рандомные координаты рядом с центром для примера)
+    if(pickupMarker) map.removeLayer(pickupMarker);
+    if(dropoffMarker) map.removeLayer(dropoffMarker);
+
+    pickupMarker = L.marker([50.3 + Math.random()*0.01, 43.5 + Math.random()*0.01]).addTo(map).bindPopup(`Подача: ${pickup}`).openPopup();
+    dropoffMarker = L.marker([50.3 + Math.random()*0.01, 43.5 + Math.random()*0.01]).addTo(map).bindPopup(`Назначение: ${dropoff}`).openPopup();
 });
 </script>
 
