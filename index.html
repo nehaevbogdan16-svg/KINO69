@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Такси Быстро</title>
+    <title>Такси Калачёвский район</title>
     <style>
-        /* Сброс стилей */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
         body { background-color: #f5f5f5; color: #333; }
@@ -31,7 +30,7 @@
         }
 
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, button {
+        select, input, button {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -47,9 +46,7 @@
             font-weight: bold;
         }
 
-        button:hover {
-            background-color: #e6b800;
-        }
+        button:hover { background-color: #e6b800; }
 
         .map {
             margin-top: 20px;
@@ -64,23 +61,33 @@
             color: #777;
         }
 
-        @media (max-width: 600px) {
-            body { padding: 0 10px; }
-        }
+        @media (max-width: 600px) { body { padding: 0 10px; } }
     </style>
 </head>
 <body>
 
-<header>Такси Быстро</header>
+<header>Такси Калачёвский район</header>
 
 <main>
-    <h2>Закажите такси онлайн</h2>
+    <h2>Закажите такси в Калачёвском районе</h2>
     <form id="taxiForm">
         <label for="pickup">Адрес подачи:</label>
-        <input type="text" id="pickup" name="pickup" placeholder="Введите адрес" required>
+        <select id="pickup" name="pickup" required>
+            <option value="">Выберите населённый пункт</option>
+            <option value="Калач">Калач</option>
+            <option value="Нижне-Водянка">Нижне-Водянка</option>
+            <option value="Панфиловка">Панфиловка</option>
+            <option value="Красный Яр">Красный Яр</option>
+        </select>
 
         <label for="dropoff">Адрес назначения:</label>
-        <input type="text" id="dropoff" name="dropoff" placeholder="Введите адрес" required>
+        <select id="dropoff" name="dropoff" required>
+            <option value="">Выберите населённый пункт</option>
+            <option value="Калач">Калач</option>
+            <option value="Нижне-Водянка">Нижне-Водянка</option>
+            <option value="Панфиловка">Панфиловка</option>
+            <option value="Красный Яр">Красный Яр</option>
+        </select>
 
         <label for="carType">Тип машины:</label>
         <select id="carType" name="carType">
@@ -95,23 +102,46 @@
         <button type="submit">Заказать такси</button>
     </form>
 
-    <div class="map" id="map">
-        <!-- Здесь можно подключить карту, например, Yandex Maps или Google Maps -->
+    <div class="map">
         <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A1&source=constructor" width="100%" height="100%" frameborder="0"></iframe>
     </div>
 </main>
 
 <footer>
-    © 2026 Такси Быстро | Телефон: +7 (900) 000-00-00
+    © 2026 Такси Калачёвский район | Телефон: +7 (900) 000-00-00
 </footer>
 
 <script>
-    const form = document.getElementById('taxiForm');
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Заказ принят! Наш водитель свяжется с вами.');
-        form.reset();
-    });
+const form = document.getElementById('taxiForm');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const pickup = document.getElementById('pickup').value;
+    const dropoff = document.getElementById('dropoff').value;
+    const carType = document.getElementById('carType').value;
+
+    // Проверка, что точки выбраны
+    if (!pickup || !dropoff) {
+        alert('Пожалуйста, выберите населённые пункты.');
+        return;
+    }
+
+    // Расчет стоимости
+    let cost = 0;
+    if (pickup === dropoff) {
+        cost = 150; // поездка по одному населенному пункту
+    } else {
+        cost = 300; // межпоселковая поездка
+    }
+
+    // Дополнительно можно корректировать стоимость по типу машины
+    if (carType === 'business') cost += 100;
+    if (carType === 'minivan') cost += 50;
+
+    alert(`Заказ принят!\nМаршрут: ${pickup} → ${dropoff}\nТип машины: ${carType}\nСтоимость: ${cost}₽\nНаш водитель свяжется с вами.`);
+    form.reset();
+});
 </script>
 
 </body>
