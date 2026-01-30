@@ -3,170 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoTaxi - Мини ЯндексGO</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<title>CITADEL | PUBG Mobile Tournaments</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  body { margin:0; font-family: Arial, sans-serif; }
-  header { background:#ffcc00; padding:15px; text-align:center; font-size:24px; font-weight:bold; }
-  main { display:flex; flex-direction: column; align-items:center; padding:20px; }
-  form { background:#fff; padding:20px; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); width:100%; max-width:500px; margin-bottom:20px; }
-  label { display:block; margin-bottom:5px; font-weight:bold; }
-  select, input, button { width:100%; padding:10px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; font-size:16px; }
-  button { background:#ffcc00; border:none; cursor:pointer; font-weight:bold; }
-  button:hover { background:#e6b800; }
-  #map { width:100%; height:500px; border-radius:8px; margin-top:10px; }
-  #history { max-width:500px; width:100%; margin-top:20px; }
-  #history h3 { margin-bottom:10px; }
-  #history ul { list-style:none; padding-left:0; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at top, #0f2027, #000);
+    color: #fff;
+}
+
+header {
+    padding: 40px 20px;
+    text-align: center;
+    background: linear-gradient(90deg, #111, #1c1c1c);
+    border-bottom: 2px solid #ffb300;
+}
+
+header h1 {
+    font-size: 36px;
+    letter-spacing: 4px;
+    color: #ffb300;
+}
+
+header p {
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+section {
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    border-left: 5px solid #ffb300;
+    padding-left: 15px;
+}
+
+.tournaments {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: #111;
+    border: 1px solid #333;
+    padding: 25px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border-color: #ffb300;
+}
+
+.card h3 {
+    color: #ffb300;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 10px;
+}
+
+.register {
+    background: #0d0d0d;
+    border-radius: 15px;
+}
+
+form {
+    display: grid;
+    gap: 15px;
+    max-width: 450px;
+}
+
+input, button {
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+input {
+    background: #1c1c1c;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+button {
+    background: #ffb300;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ffc933;
+}
+
+footer {
+    padding: 30px;
+    text-align: center;
+    background: #090909;
+    border-top: 1px solid #222;
+    opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 26px;
+    }
+}
 </style>
 </head>
 <body>
 
-<header>GoTaxi - Мини ЯндексGO</header>
+<header>
+    <h1>CITADEL</h1>
+    <p>Турниры PUBG Mobile от клана Цитадель</p>
+</header>
 
-<main>
-<form id="taxiForm">
-  <label for="pickup">Адрес подачи:</label>
-  <input type="text" id="pickup" placeholder="ул. Ленина, Калач">
+<section>
+    <div class="title">О турнирах</div>
+    <p>
+        Клан <b>CITADEL</b> проводит регулярные турниры по PUBG Mobile.
+        Честная игра, грамотные судьи и реальные призы.
+        Присоединяйся и докажи, что твой отряд — лучший.
+    </p>
+</section>
 
-  <label for="dropoff">Адрес назначения:</label>
-  <input type="text" id="dropoff" placeholder="ул. Советская, Калач">
+<section>
+    <div class="title">Активные турниры</div>
+    <div class="tournaments">
+        <div class="card">
+            <h3>CITADEL CUP #1</h3>
+            <p>📅 Дата: 15 февраля</p>
+            <p>👥 Формат: Squad</p>
+            <p>💰 Призовой фонд: 10 000₽</p>
+        </div>
+        <div class="card">
+            <h3>Night Battle</h3>
+            <p>📅 Дата: 22 февраля</p>
+            <p>👥 Формат: Duo</p>
+            <p>💰 Призовой фонд: 5 000₽</p>
+        </div>
+        <div class="card">
+            <h3>Solo Kings</h3>
+            <p>📅 Дата: 1 марта</p>
+            <p>👤 Формат: Solo</p>
+            <p>💰 Призовой фонд: 3 000₽</p>
+        </div>
+    </div>
+</section>
 
-  <label for="carType">Тип машины:</label>
-  <select id="carType">
-    <option value="econom">Эконом</option>
-    <option value="business">Бизнес</option>
-    <option value="minivan">Минивэн</option>
-  </select>
+<section class="register">
+    <div class="title">Регистрация команды</div>
+    <form onsubmit="event.preventDefault(); alert('Заявка отправлена! Мы свяжемся с вами в Telegram');">
+        <input type="text" placeholder="Название команды" required>
+        <input type="text" placeholder="Ник капитана" required>
+        <input type="text" placeholder="Telegram для связи" required>
+        <button type="submit">Отправить заявку</button>
+    </form>
+</section>
 
-  <button type="submit">Заказать такси</button>
-</form>
-
-<div id="map"></div>
-
-<div id="history">
-  <h3>История поездок</h3>
-  <ul id="historyList"></ul>
-</div>
-
-</main>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-// Инициализация карты
-const map = L.map('map').setView([50.3, 43.5], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-let pickupMarker, dropoffMarker, routeLine;
-let cars = [];
-let carIcons = L.icon({iconUrl:'https://cdn-icons-png.flaticon.com/512/743/743007.png', iconSize:[30,30]});
-let history = JSON.parse(localStorage.getItem('taxiHistory')||'[]');
-
-// Инициализация фейковых машин
-for(let i=0;i<5;i++){
-  const lat = 50.3 + (Math.random()-0.5)*0.02;
-  const lng = 43.5 + (Math.random()-0.5)*0.02;
-  const marker = L.marker([lat,lng], {icon:carIcons}).addTo(map);
-  cars.push({marker, coords:[lat,lng]});
-}
-
-// Функция геокодирования через Nominatim
-async function geocode(query){
-  const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-  const data = await res.json();
-  if(data.length===0) return null;
-  return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-}
-
-// Расчет маршрута через OpenRouteService
-async function getRoute(start,end){
-  const apiKey = 'YOUR_OPENROUTESERVICE_API_KEY'; // получите ключ
-  const res = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${start[1]},${start[0]}&end=${end[1]},${end[0]}`);
-  const data = await res.json();
-  return data.features[0].geometry.coordinates.map(c=>[c[1], c[0]]);
-}
-
-// Анимация движения машин к клиенту
-function moveCarsToPickup(pickup){
-  cars.forEach(c=>{
-    const route = [c.coords, pickup];
-    let t = 0;
-    const interval = setInterval(()=>{
-      t+=0.02;
-      if(t>1){ clearInterval(interval); c.coords = pickup; return; }
-      const lat = c.coords[0] + t*(pickup[0]-c.coords[0]);
-      const lng = c.coords[1] + t*(pickup[1]-c.coords[1]);
-      c.marker.setLatLng([lat,lng]);
-    },200);
-  });
-}
-
-// История поездок
-function addToHistory(entry){
-  history.unshift(entry);
-  localStorage.setItem('taxiHistory', JSON.stringify(history));
-  renderHistory();
-}
-
-function renderHistory(){
-  const ul = document.getElementById('historyList');
-  ul.innerHTML='';
-  history.forEach(h=>{
-    const li = document.createElement('li');
-    li.textContent = `${h.date}: ${h.pickup} → ${h.dropoff}, ${h.carType}, ${h.cost}₽`;
-    ul.appendChild(li);
-  });
-}
-renderHistory();
-
-document.getElementById('taxiForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const pickup = document.getElementById('pickup').value;
-  const dropoff = document.getElementById('dropoff').value;
-  const carType = document.getElementById('carType').value;
-
-  if(!pickup || !dropoff){ alert('Введите оба адреса'); return; }
-
-  const pickupCoords = await geocode(pickup);
-  const dropoffCoords = await geocode(dropoff);
-  if(!pickupCoords || !dropoffCoords){ alert('Не удалось найти адреса'); return; }
-
-  if(pickupMarker) map.removeLayer(pickupMarker);
-  if(dropoffMarker) map.removeLayer(dropoffMarker);
-  if(routeLine) map.removeLayer(routeLine);
-
-  pickupMarker = L.marker(pickupCoords).addTo(map).bindPopup('Подача').openPopup();
-  dropoffMarker = L.marker(dropoffCoords).addTo(map).bindPopup('Назначение').openPopup();
-
-  const route = await getRoute(pickupCoords, dropoffCoords);
-  routeLine = L.polyline(route,{color:'blue'}).addTo(map);
-  map.fitBounds(routeLine.getBounds());
-
-  // Расчет расстояния
-  let distanceKm = 0;
-  for(let i=1;i<route.length;i++){
-    const R = 6371;
-    const dLat = (route[i][0]-route[i-1][0])*Math.PI/180;
-    const dLon = (route[i][1]-route[i-1][1])*Math.PI/180;
-    const a = Math.sin(dLat/2)**2 + Math.cos(route[i-1][0]*Math.PI/180)*Math.cos(route[i][0]*Math.PI/180)*Math.sin(dLon/2)**2;
-    const c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-    distanceKm += R*c;
-  }
-
-  let cost = 150 + distanceKm*20;
-  if(carType==='business') cost += 100;
-  if(carType==='minivan') cost += 50;
-
-  // Симуляция движения машин к клиенту
-  moveCarsToPickup(pickupCoords);
-
-  alert(`Заказ принят!\nМаршрут: ${pickup} → ${dropoff}\nТип машины: ${carType}\nРасстояние: ${distanceKm.toFixed(1)} км\nСтоимость: ${cost.toFixed(0)}₽\nETA ближайшей машины: ~3 мин`);
-
-  addToHistory({date:new Date().toLocaleString(), pickup, dropoff, carType, cost:cost.toFixed(0)});
-});
-</script>
+<footer>
+    © 2026 CITADEL Clan • PUBG Mobile Tournaments  
+    <br>Связь: Telegram @citadel_clan
+</footer>
 
 </body>
 </html>
