@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>MIRAS FAMILY | PUBG MOBILE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(180deg,#0a0f1c,#05070d);
+            color: #fff;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 40px;
+            margin: 20px 0;
+            letter-spacing: 3px;
+            color: #facc15;
+        }
+
+        .leaders {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 40px 0;
+        }
+
+        .leader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+        }
+
+            .leader img {
+                width: 120px;
+                height: 120px;
+                border-radius: 12px;
+                border: 2px solid #38bdf8;
+                box-shadow: 0 0 20px rgba(56,189,248,0.5);
+            }
+
+            .leader.main img {
+                border-color: #facc15;
+                box-shadow: 0 0 30px rgba(250,204,21,0.8);
+                transform: scale(1.2);
+            }
+
+        /* РОЛИ */
+        .role {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .leader-role {
+            background: #facc15;
+            color: #000;
+        }
+
+        .zam-role {
+            background: #38bdf8;
+        }
+
+        .elite-role {
+            background: #a855f7;
+        }
+
+        .member-role {
+            background: #64748b;
+        }
+
+        .main {
+            display: flex;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .members, .top {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .member {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+            .member:hover {
+                background: rgba(56,189,248,0.1);
+            }
+
+            .member img {
+                width: 50px;
+                height: 50px;
+                border-radius: 8px;
+                margin-right: 10px;
+            }
+
+        .top-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            background: rgba(250,204,21,0.1);
+        }
+
+        .customs {
+            text-align: center;
+            margin: 40px 0;
+            opacity: 0.6;
+        }
+
+        button {
+            background: #facc15;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>Ур. 8</div>
+        <div class="logo"><img src="logo.png"></div>
+        <div>11/60</div>
+    </header>
+
+    <div class="title">MIRAS FAMILY</div>
+
+    <section class="leaders">
+        <div class="leader">
+            <div class="role zam-role">Заместитель</div>
+            <img src="img/bogdan.png">
+            <span>Bogdan</span>
+        </div>
+
+        <div class="leader main">
+            <div class="role leader-role">Лидер</div>
+            <img src="img/margo.png">
+            <span>Margo</span>
+        </div>
+
+        <div class="leader">
+            <div class="role zam-role">Заместитель</div>
+            <img src="img/vlad.png">
+            <span>Vlad</span>
+        </div>
+    </section>
+
+    <section class="main">
+
+        <div class="members">
+            <h2>Участники</h2>
+
+            <div class="member">
+                <img src="img/bogdan.png">
+                <div>
+                    Bogdan<br>
+                    <small>Ранг 12</small><br>
+                    <span class="role elite-role">Элита</span>
+                </div>
+            </div>
+
+            <div class="member">
+                <img src="img/margo.png">
+                <div>
+                    Margo<br>
+                    <small>Ранг 12</small><br>
+                    <span class="role leader-role">Лидер</span>
+                </div>
+            </div>
+
+            <div class="member">
+                <img src="img/vlad.png">
+                <div>
+                    Vlad<br>
+                    <small>Ранг 12</small><br>
+                    <span class="role zam-role">Заместитель</span>
+                </div>
+            </div>
+
+            <div class="member">
+                <img src="img/vana.png">
+                <div>
+                    Vana<br>
+                    <small>Ранг 2</small><br>
+                    <span class="role member-role">Член клана</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="top">
+            <h2>Топ академии</h2>
+
+            <div class="top-item">🥇 Bogdan</div>
+            <div class="top-item">🥈 Margo</div>
+            <div class="top-item">🥉 Vlad</div>
+            <div class="top-item">4. Vana</div>
+            <div class="top-item">5. Rock</div>
+        </div>
+
+    </section>
+
+    <div class="customs">
+        <h2>Кастомки</h2>
+        <p>Скоро...</p>
+        <button>Подать заявку</button>
+    </div>
+
+</body>
+<script>
+fetch("data.json")
+  .then(res => res.json())
+  .then(players => {
+    const container = document.querySelector(".members");
+    container.innerHTML = "<h2>Участники</h2>";
+
+    players.forEach(p => {
+      container.innerHTML += `
+        <div class="member">
+          <img src="${p.avatar}">
+          <div>
+            ${p.name}<br>
+            <small>Ранг ${p.rank}</small><br>
+            <span class="role ${getRoleClass(p.role)}">${p.role}</span>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+function getRoleClass(role) {
+  if (role === "leader") return "leader-role";
+  if (role === "zam") return "zam-role";
+  if (role === "elite") return "elite-role";
+  return "member-role";
+}
+</script>
+</html>
