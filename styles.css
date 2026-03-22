@@ -1,0 +1,70 @@
+/* 📱 МОБИЛЬНАЯ ВЕРСИЯ */
+@media (max-width: 768px) {
+
+  body {
+    margin: 10px;
+  }
+
+  /* ВЕРХ */
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logo img {
+    width: 70px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  /* ЛИДЕРЫ */
+  .leaders {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .leader {
+    width: 100%;
+    max-width: 250px;
+    background: #111;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  /* ОСНОВА */
+  .main {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* УЧАСТНИКИ */
+  .members {
+    width: 100%;
+  }
+
+  .member {
+    background: #111;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  /* ТОП */
+  .top {
+    width: 100%;
+  }
+
+  .top-item {
+    background: #111;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  /* КАСТОМКИ */
+  .customs {
+    margin-top: 20px;
+  }
+
+}
